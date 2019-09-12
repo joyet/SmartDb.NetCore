@@ -1,0 +1,7 @@
+﻿create  table UserInfo
+(
+UserId int not null,
+UserName  varchar(50),
+Age int,
+Email varchar(50)
+)

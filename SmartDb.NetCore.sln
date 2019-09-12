@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.Mapper.NetCore", "SmartDb.Mapper.NetCore\SmartDb.Mapper.NetCore.csproj", "{C415791A-BF84-4E10-B233-800B754464EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.NetCore", "SmartDb.NetCore\SmartDb.NetCore.csproj", "{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.MySql.NetCore", "SmartDb.MySql.NetCore\SmartDb.MySql.NetCore.csproj", "{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.PostgreSql.NetCore", "SmartDb.PostgreSql.NetCore\SmartDb.PostgreSql.NetCore.csproj", "{7FC665AB-5076-4A2D-867F-BE99374CD931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.SQLite.NetCore", "SmartDb.SQLite.NetCore\SmartDb.SQLite.NetCore.csproj", "{645732FD-273F-40CF-BC04-6B03C1172BD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbConsole", "TestSmartDbConsole\TestSmartDbConsole.csproj", "{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.SqlServer.NetCore", "SmartDb.SqlServer.NetCore\SmartDb.SqlServer.NetCore.csproj", "{1919E859-CD03-4E64-9E54-E1459863DD1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C415791A-BF84-4E10-B233-800B754464EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C415791A-BF84-4E10-B233-800B754464EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C415791A-BF84-4E10-B233-800B754464EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C415791A-BF84-4E10-B233-800B754464EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC665AB-5076-4A2D-867F-BE99374CD931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC665AB-5076-4A2D-867F-BE99374CD931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC665AB-5076-4A2D-867F-BE99374CD931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC665AB-5076-4A2D-867F-BE99374CD931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F78A327-5D24-40FB-B000-084436AB4611}
+	EndGlobalSection
+EndGlobal
