@@ -13,11 +13,7 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bruce")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute(@"SmartDb.Mapper.NetCore是个基于Emit对象映射框架，能够将基于IDataReader和DataTable转化为实体对象。
-包NuGet地址：https://www.nuget.org/packages/SmartDb.Mapper.NetCore
-框架Git开源地址：https://github.com/joyet/SmartDb.NetCore
-框架博客地址：https://www.cnblogs.com/joyet-john/articles/9295985.html#4021708
-联系邮箱：joyet@qq.com")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("SmartDb.Mapper.NetCore")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.85.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.85.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartDb.Mapper.NetCore")]

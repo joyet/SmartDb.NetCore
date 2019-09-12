@@ -923,11 +923,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj",
+      "projectUniqueName": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj",
       "projectName": "SmartDb.Mapper.NetCore",
-      "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj",
+      "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\obj\\",
+      "outputPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

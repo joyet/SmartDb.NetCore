@@ -2,21 +2,13 @@
 
  <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net4.5.1;net4.5.2;net46;net4.6.1;net4.6.2</TargetFrameworks>
-    <Description>SmartDb.SqlServer.NetCore是一套基于DoNet和DoNetCore对SqlServer数据库支持的快速开发和轻量级ORM框架，需要SmartDb.NetCore作为基础框架。
-包NuGet地址：https://www.nuget.org/packages/SmartDb.SqlServer.NetCore
-框架Git开源地址：https://github.com/joyet/SmartDb.NetCore
-框架博客地址：https://www.cnblogs.com/joyet-john/articles/9295985.html#4021708
-联系邮箱：joyet@qq.com</Description>
-    <PackageReleaseNotes>SmartDb.SqlServer.NetCore是一套基于DoNet和DoNetCore对SqlServer数据库支持的快速开发和轻量级ORM框架，需要SmartDb.NetCore作为基础框架。
-包NuGet地址：https://www.nuget.org/packages/SmartDb.SqlServer.NetCore
-框架Git开源地址：https://github.com/joyet/SmartDb.NetCore
-框架博客地址：https://www.cnblogs.com/joyet-john/articles/9295985.html#4021708
-联系邮箱：joyet@qq.com</PackageReleaseNotes>
+    <Description></Description>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <Version>2.87.0</Version>
-    <PackageTags>SmartDb.SqlServer.NetCore ORM DoNet DoNetCore SqlServer</PackageTags>
+    <PackageTags></PackageTags>
     <Authors>Bruce</Authors>
     <Company>Bruce</Company>
-    <PackageProjectUrl>https://github.com/joyet/SmartDb.NetCore</PackageProjectUrl>
+    <PackageProjectUrl></PackageProjectUrl>
   </PropertyGroup>
 
  <ItemGroup>

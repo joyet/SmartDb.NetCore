@@ -5,18 +5,10 @@
     <Version>2.85.0</Version>
     <Authors>Bruce</Authors>
     <Company>Bruce</Company>
-    <Description>SmartDb.Mapper.NetCore是个基于Emit对象映射框架，能够将基于IDataReader和DataTable转化为实体对象。
-包NuGet地址：https://www.nuget.org/packages/SmartDb.Mapper.NetCore
-框架Git开源地址：https://github.com/joyet/SmartDb.NetCore
-框架博客地址：https://www.cnblogs.com/joyet-john/articles/9295985.html#4021708
-联系邮箱：joyet@qq.com</Description>
-    <PackageReleaseNotes>SmartDb.Mapper.NetCore是个基于Emit对象映射框架，能够将基于IDataReader和DataTable转化为实体对象。
-包NuGet地址：https://www.nuget.org/packages/SmartDb.Mapper.NetCore
-框架Git开源地址：https://github.com/joyet/SmartDb.NetCore
-框架博客地址：https://www.cnblogs.com/joyet-john/articles/9295985.html#4021708
-联系邮箱：joyet@qq.com</PackageReleaseNotes>
-    <PackageTags>Mapper SmartDb.Mapper.NetCore SmartDb NetCore DotNet Emit</PackageTags>
-    <PackageProjectUrl>https://github.com/joyet/SmartDb.NetCore</PackageProjectUrl>
+    <Description>SmartDb.Mapper.NetCore</Description>
+    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageTags></PackageTags>
+    <PackageProjectUrl></PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

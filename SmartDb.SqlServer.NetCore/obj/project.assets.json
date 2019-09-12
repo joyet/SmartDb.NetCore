@@ -1937,11 +1937,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\SmartDb.SqlServer.NetCore.csproj",
+      "projectUniqueName": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\SmartDb.SqlServer.NetCore.csproj",
       "projectName": "SmartDb.SqlServer.NetCore",
-      "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\SmartDb.SqlServer.NetCore.csproj",
+      "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\SmartDb.SqlServer.NetCore.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\obj\\",
+      "outputPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.SqlServer.NetCore\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
@@ -1968,61 +1968,61 @@
       "frameworks": {
         "net451": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         },
         "net452": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         },
         "net46": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         },
         "net461": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         },
         "net462": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         },
         "netstandard2.0": {
           "projectReferences": {
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             },
-            "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
-              "projectPath": "F:\\work\\dotnetcore-work\\ff\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Mapper.NetCore\\SmartDb.Mapper.NetCore.csproj"
             }
           }
         }
