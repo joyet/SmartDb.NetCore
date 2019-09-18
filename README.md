@@ -78,8 +78,8 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             var result = _db.Delete<UserInfo>(1);
 
             //根据过滤SQL、object参数查询数据列表1
-            result = _db.DeleteByWhereParam<UserInfo>("UserId = 1", null);
-            result = _db.DeleteByWhereParam<UserInfo>(string.Format("UserId={0}UserId", _dbOperator), new { UserId = 1 });
+            result = _db.Delete<UserInfo>("UserId = 1", null);
+            result = _db.Delete<UserInfo>(string.Format("UserId={0}UserId", _dbOperator), new { UserId = 1 });
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             var data = _db.Query<UserInfo>(2);
             data.UserName = "joyet22";
             var result = _db.Update<UserInfo>(data);
-            result = _db.UpdateById<UserInfo>(new { UserName = "joyet222" },2);
+            result = _db.Update<UserInfo>(new { UserName = "joyet222" },2);
         }
 
         /// <summary>
@@ -103,8 +103,8 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             var data = _db.Query<UserInfo>(3);
 
             //根据查询字段、过滤SQL、object参数查询数据列表
-            var dataList1 = _db.QueryByWhereParam<UserInfo>("UserId,UserName", "UserId=3", null);
-            var dataList2 = _db.QueryByWhereParam<UserInfo>("UserId,UserName", string.Format("UserId={0}UserId", _dbOperator), new { UserId = 3 });
+            var dataList1 = _db.Query<UserInfo>("UserId,UserName", "UserId=3", null);
+            var dataList2 = _db.Query<UserInfo>("UserId,UserName", string.Format("UserId={0}UserId", _dbOperator), new { UserId = 3 });
 
             //根据查询参数化SQL、object参数查询数据列表
             var dataList3 = _db.Query<UserInfo>("select * from UserInfo where UserId=3", null);
