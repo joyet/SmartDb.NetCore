@@ -190,10 +190,10 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual int DeleteByWhereParam<T>(string whereSql, object whereParam)
+        public virtual int Delete<T>(string whereSql, object whereParam)
         {
             int result = 0;
-            var dbEntity = DbBuilder.DeleteByWhereParam<T>(whereSql,whereParam);
+            var dbEntity = DbBuilder.Delete<T>(whereSql,whereParam);
             if (dbEntity == null)
             {
                 return result;
@@ -227,10 +227,10 @@ namespace SmartDb.NetCore
         /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual int UpdateById<T>(object updateParams, object id)
+        public virtual int Update<T>(object updateParams, object id)
         {
             int result = 0;
-            var dbEntity = DbBuilder.UpdateById<T>(updateParams, id);
+            var dbEntity = DbBuilder.Update<T>(updateParams, id);
             if (dbEntity == null)
             {
                 return result;
@@ -247,10 +247,10 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {UserId=1}</param>
         /// <returns></returns>
-        public virtual int UpdateByWhereParam<T>(object updateParams,string whereSql, object whereParams)
+        public virtual int Update<T>(object updateParams,string whereSql, object whereParams)
         {
             int result = 0;
-            var dbEntity = DbBuilder.UpdateByWhereParam<T>(updateParams, whereSql, whereParams);
+            var dbEntity = DbBuilder.Update<T>(updateParams, whereSql, whereParams);
             if (dbEntity == null)
             {
                 return result;
@@ -288,10 +288,10 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual List<T> QueryByWhereParam<T>(string queryColumns,string whereSql, object whereParam)
+        public virtual List<T> Query<T>(string queryColumns,string whereSql, object whereParam)
         {
             List<T> result = null;
-            var dbEntity = DbBuilder.QueryByWhereParam<T>(queryColumns, whereSql, whereParam);
+            var dbEntity = DbBuilder.Query<T>(queryColumns, whereSql, whereParam);
             if (dbEntity == null)
             {
                 return result;

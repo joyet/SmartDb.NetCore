@@ -108,7 +108,7 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity DeleteByWhereParam<T>(string whereSql, object whereParam)
+        public virtual DbEntity Delete<T>(string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             Type type = typeof(T);
@@ -180,7 +180,7 @@ namespace SmartDb.NetCore
         /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual DbEntity UpdateById<T>(object updateParam, object id)
+        public virtual DbEntity Update<T>(object updateParam, object id)
         {
             DbEntity dbEntity = null;
             if (updateParam == null|| id == null)
@@ -222,7 +222,7 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {UserId=1}</param>
         /// <returns></returns>
-        public virtual DbEntity UpdateByWhereParam<T>(object updateParam, string whereSql, object whereParam)
+        public virtual DbEntity Update<T>(object updateParam, string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             Type type = typeof(T);
@@ -295,7 +295,7 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity QueryByWhereParam<T>(string queryColumns,string whereSql, object whereObjParam)
+        public virtual DbEntity Query<T>(string queryColumns,string whereSql, object whereObjParam)
         {
             DbEntity dbEntity = null;
             if (string.IsNullOrEmpty(queryColumns))
