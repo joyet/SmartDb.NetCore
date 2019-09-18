@@ -66,7 +66,7 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void DeleteAll()
         {
-            var result = _db.DeleteByWhereParam<UserInfo>("", null);
+            var result = _db.Delete<UserInfo>("", null);
         }
 
         /// <summary>
