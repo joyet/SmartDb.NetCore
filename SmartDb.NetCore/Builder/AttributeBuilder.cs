@@ -94,11 +94,7 @@ namespace SmartDb.NetCore
             {
                 TableColumnAttribute systemColumn = GetSystemProperInfo(proInfo, null);
                 TableColumnAttribute selftDefineColumn = GetCustomAttributeInfo(proInfo, null);
-                if (systemColumn == null||selftDefineColumn == null)
-                {
-                    return pkColumn;
-                }
-                if (selftDefineColumn.IsPrimaryKey)
+                if (selftDefineColumn != null && selftDefineColumn.IsPrimaryKey)
                 {
                     pkColumn = selftDefineColumn;
                     break;

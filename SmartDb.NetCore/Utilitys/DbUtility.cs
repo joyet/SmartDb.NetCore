@@ -46,6 +46,11 @@ namespace SmartDb.NetCore
         /// </summary>
         public Action<string, List<IDbDataParameter>> logAction { get; set; }
 
+        /// <summary>
+        /// DB实体
+        /// </summary>
+        public DbEntity DbEntity { get; set; }
+
         #endregion
 
         #region private、internal、public   Methods

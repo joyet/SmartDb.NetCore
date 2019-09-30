@@ -161,6 +161,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -179,6 +180,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -198,6 +200,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -216,6 +219,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -235,6 +239,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -255,6 +260,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
@@ -273,6 +279,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntity<T>(reader);
@@ -296,6 +303,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntityList<T>(reader);
@@ -318,6 +326,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntityList<T>(reader);
@@ -373,6 +382,7 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
+            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 var datas = DataReaderToEntityList<T>(reader);

@@ -31,13 +31,13 @@ namespace TestSmartDbConsole
             db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
 
             var dbTest = new DbTest(db);
-            dbTest.DeleteAll();
-            dbTest.Insert();
-            dbTest.Delete();
+            //dbTest.DeleteAll();
+            //dbTest.Insert();
+            //dbTest.Delete();
             dbTest.Update();
-            dbTest.Query();
-            dbTest.OrtherQuery();
-            dbTest.OrtherNoneQuery();
+            //dbTest.Query();
+            //dbTest.OrtherQuery();
+            //dbTest.OrtherNoneQuery();
         }
 
         public static void TestSqlServer()
@@ -49,13 +49,13 @@ namespace TestSmartDbConsole
             db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
 
             var dbTest = new DbTest(db);
-            dbTest.DeleteAll();
-            dbTest.Insert();
+            //dbTest.DeleteAll();
+            //dbTest.Insert();
             dbTest.Delete();
-            dbTest.Update();
-            dbTest.Query();
-            dbTest.OrtherQuery();
-            dbTest.OrtherNoneQuery();
+            //dbTest.Update();
+            //dbTest.Query();
+            //dbTest.OrtherQuery();
+            //dbTest.OrtherNoneQuery();
         }
 
         public static void TestSqlite()
