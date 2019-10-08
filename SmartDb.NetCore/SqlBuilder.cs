@@ -31,7 +31,7 @@ namespace SmartDb.NetCore
             var attributeBuilder = new AttributeBuilder();
             TableAttribute tableEntity= attributeBuilder.GetTableInfo(type);
             var columns = new AttributeBuilder().GetColumnInfos(type, entity);
-            if (columns.Count<0)
+            if (columns==null||columns.Count<0)
             {
                 return dbEntity;
             }
@@ -146,7 +146,7 @@ namespace SmartDb.NetCore
             var attributeBuilder = new AttributeBuilder();
             var tableEntity = attributeBuilder.GetTableInfo(type);
             var columns = attributeBuilder.GetColumnInfos(type, entity);
-            if (columns.Count <0)
+            if (columns==null||columns.Count <0)
             {
                 return dbEntity;
             }

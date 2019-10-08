@@ -42,12 +42,14 @@ namespace SmartDb.NetCore
             {
                 TableColumnAttribute systemColumn = GetSystemProperInfo(proInfo, entity);
                 TableColumnAttribute selftDefineColumn =GetCustomAttributeInfo(proInfo, entity);
-                if (selftDefineColumn == null)
+                if (selftDefineColumn!= null)
+                {
+                    columnList.Add(selftDefineColumn);
+                }
+                else
                 {
                     columnList.Add(systemColumn);
-                    continue;
                 }
-                columnList.Add(selftDefineColumn);
             }
             return columnList;
        }
@@ -143,11 +145,7 @@ namespace SmartDb.NetCore
                 return columnEntity;
             }
             object[] customAttributes = proInfo.GetCustomAttributes(typeof(TableColumnAttribute), true);
-            if (customAttributes == null)
-            {
-                return columnEntity;
-            }
-            if (customAttributes.Length<=0)
+            if (customAttributes == null|| customAttributes.Length <= 0)
             {
                 return columnEntity;
             }
