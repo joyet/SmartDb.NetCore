@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net4.5.1;net4.5.2;net46;net4.6.1;net4.6.2</TargetFrameworks>
+   <TargetFrameworks>netstandard2.0;net45;net4.5.1;net4.5.2;net46;net4.6.1;net4.6.2;</TargetFrameworks>
     <Version>2.85.0</Version>
     <Authors>Bruce</Authors>
     <Company>Bruce</Company>

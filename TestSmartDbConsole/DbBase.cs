@@ -32,7 +32,7 @@ namespace TestSmartDbConsole
         /// </summary>
         public void DeleteAll()
         {
-            //var result = _db.Delete<Entity>("", null);
+            var result = _db.Delete<Entity>("", null);
         }
 
         /// <summary>

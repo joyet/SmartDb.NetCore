@@ -50,8 +50,11 @@ a inner join {tableName} b on a.{sortColumn}=b.{sortColumn} order by b.{sortColu
             sqlBuild.Replace("{sortType}", sortType);
             sqlBuild.Replace("{startNum}", startNum.ToString());
             sqlBuild.Replace("{pageSize}", pageSize.ToString());
-            HandleQueryColumParam(queryColumns, "b", ref sqlBuild);
-            HandleWhereParam(whereSql, whereColumns, ref sqlBuild, ref dbParams);
+            var queryItem = HandleQueryColumParam(queryColumns, "b", sqlBuild);
+            sqlBuild = queryItem.Item1;
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
+            sqlBuild = whereItem.Item1;
+            dbParams = whereItem.Item2;
             dbEntity.CommandText = sqlBuild.ToString();
             dbEntity.DbParams = dbParams;
             return dbEntity;

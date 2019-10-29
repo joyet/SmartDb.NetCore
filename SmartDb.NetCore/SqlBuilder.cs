@@ -40,12 +40,12 @@ namespace SmartDb.NetCore
                 return dbEntity;
             }
             var noneAutoIncrementColumns = columns.Where(a => !a.IsAutoIncrement).ToList();
+            var columnNameList = new List<string>();
+            var paramColumnList = new List<string>();
             var dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
             var sqlBuild = new StringBuilder("insert into {tableName}({columnNames}) values({columnValues})");
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            var columnNameList = new List<string>();
-            var paramColumnList = new List<string>();
             foreach (var column in noneAutoIncrementColumns)
             {
                 columnNameList.Add(column.ColumnName);
@@ -119,7 +119,9 @@ namespace SmartDb.NetCore
             var whereColumns = attributeBuilder.GetColumnInfos(whereParam);
             StringBuilder sqlBuild = new StringBuilder("delete from {tableName} {whereCriteria}");
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            HandleWhereParam(whereSql, whereColumns, ref sqlBuild, ref dbParams);
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
+            sqlBuild = whereItem.Item1;
+            dbParams = whereItem.Item2;
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
@@ -162,7 +164,9 @@ namespace SmartDb.NetCore
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
             sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
             sqlBuild.Replace("{dbOperator}", dbOperator);
-            HandleUpdateParam(updateColumns, ref sqlBuild, ref dbParams);
+            var updateItem= HandleUpdateParam(updateColumns,sqlBuild,dbParams);
+            sqlBuild = updateItem.Item1;
+            dbParams = updateItem.Item2;
             dbParams.Add(DbFactory.GetDbParam(pkColumn));
             dbEntity = new DbEntity()
             {
@@ -203,7 +207,9 @@ namespace SmartDb.NetCore
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
             sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
             sqlBuild.Replace("{dbOperator}", dbOperator);
-            HandleUpdateParam(updateColumns, ref sqlBuild, ref dbParams);
+            var updateItem = HandleUpdateParam(updateColumns, sqlBuild, dbParams);
+            sqlBuild = updateItem.Item1;
+            dbParams = updateItem.Item2;
             dbParams.Add(DbFactory.GetDbParam(pkColumn));
             dbEntity = new DbEntity()
             {
@@ -242,8 +248,12 @@ namespace SmartDb.NetCore
             List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereParam);
             StringBuilder sqlBuild = new StringBuilder("update {tableName} set {updateCriteria} {whereCriteria}");
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            HandleUpdateParam(updateColumns, ref sqlBuild, ref dbParams);
-            HandleWhereParam(whereSql, whereColumns, ref sqlBuild, ref dbParams);
+            var updateItem = HandleUpdateParam(updateColumns, sqlBuild, dbParams);
+            sqlBuild = updateItem.Item1;
+            dbParams = updateItem.Item2;
+            var whereItem = HandleWhereParam(whereSql, whereColumns,sqlBuild, dbParams);
+            sqlBuild = whereItem.Item1;
+            dbParams = whereItem.Item2;
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
@@ -310,8 +320,11 @@ namespace SmartDb.NetCore
             List<TableColumnAttribute> whereColumns = new AttributeBuilder().GetColumnInfos(whereObjParam);
             StringBuilder sqlBuild = new StringBuilder("select {queryColumns} from {tableName} {whereCriteria}");
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            HandleQueryColumParam(queryColumns,"",ref sqlBuild);
-            HandleWhereParam(whereSql, whereColumns,ref sqlBuild,ref dbParams);
+            var queryItem = HandleQueryColumParam(queryColumns, "",  sqlBuild);
+            sqlBuild = queryItem.Item1;
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
+            sqlBuild = whereItem.Item1;
+            dbParams = whereItem.Item2;
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
@@ -392,7 +405,9 @@ namespace SmartDb.NetCore
             List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereObjParam);
             StringBuilder sqlBuild = new StringBuilder("select count(*) from  {tableName} {whereCriteria}");
             sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            HandleWhereParam(whereSql, whereColumns, ref sqlBuild, ref dbParams);
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
+            sqlBuild = whereItem.Item1;
+            dbParams = whereItem.Item2;
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
@@ -407,7 +422,7 @@ namespace SmartDb.NetCore
         /// </summary>
         /// <param name="queryColumns"></param>
         /// <param name="sqlBuild"></param>
-        public  void HandleQueryColumParam(string queryColumns, string tableAlias, ref StringBuilder sqlBuild)
+        public Tuple<StringBuilder> HandleQueryColumParam(string queryColumns, string tableAlias,StringBuilder sqlBuild)
         {
             var queryColumnList = new List<string>();
             if (queryColumns.IndexOf(',') > 0)
@@ -423,6 +438,7 @@ namespace SmartDb.NetCore
                 queryColumnList.Add(string.IsNullOrEmpty(tableAlias)? queryColumns: tableAlias+"."+ queryColumns);
             }
             sqlBuild.Replace("{queryColumns}", string.Join(",", queryColumnList));
+            return new Tuple<StringBuilder>(sqlBuild);
         }
 
         /// <summary>
@@ -431,7 +447,7 @@ namespace SmartDb.NetCore
         /// <param name="updateColumns"></param>
         /// <param name="sqlBuild"></param>
         /// <param name="dbParams"></param>
-        public  void HandleUpdateParam(List<TableColumnAttribute> updateColumns, ref StringBuilder sqlBuild, ref List<IDbDataParameter> dbParams)
+        public  Tuple<StringBuilder, List<IDbDataParameter>> HandleUpdateParam(List<TableColumnAttribute> updateColumns,StringBuilder sqlBuild, List<IDbDataParameter> dbParams)
         {
             StringBuilder updateSqlBuild = new StringBuilder();
             if (updateColumns.Count > 0)
@@ -447,6 +463,7 @@ namespace SmartDb.NetCore
                 updateSqlBuild.Append(string.Join(",", paramColumnList));
             }
             sqlBuild.Replace("{updateCriteria}", updateSqlBuild.ToString());
+            return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
         }
 
         /// <summary>
@@ -455,7 +472,7 @@ namespace SmartDb.NetCore
         /// <param name="whereColumns"></param>
         /// <param name="sqlBuild"></param>
         /// <param name="dbParams"></param>
-        public  void HandleWhereParam(string whereSql, List<TableColumnAttribute> whereColumns, ref StringBuilder sqlBuild, ref List<IDbDataParameter> dbParams)
+        public Tuple<StringBuilder, List<IDbDataParameter>> HandleWhereParam(string whereSql, List<TableColumnAttribute> whereColumns,StringBuilder sqlBuild,List<IDbDataParameter> dbParams)
         {
             StringBuilder wherSqlBuild = new StringBuilder();
             if (!string.IsNullOrEmpty(whereSql))
@@ -470,6 +487,7 @@ namespace SmartDb.NetCore
                 }
             } 
             sqlBuild.Replace("{whereCriteria}", wherSqlBuild.ToString());
+            return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
         }
 
     }
