@@ -102,16 +102,5 @@ namespace SmartDb.NetCore
         {
             return "";
         }
-
-        /// <summary>
-        /// 获取数据库自动增长sql
-        /// </summary>
-        /// <param name="isGetIncrementValue"></param>
-        /// <returns></returns>
-        public virtual string GetIncrementSql(bool isGetIncrementValue)
-        {
-            return "";
-        }
-
     }
 }

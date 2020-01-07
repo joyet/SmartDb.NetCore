@@ -18,47 +18,60 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
 
 实体类：
 ``` 
- [Table(TableName="userinfo")]
- public class UserInfo
- {
-      [TableColumn(IsPrimaryKey = true)]
-      public int UserId { get; set; }
+using SmartDb;
+using SmartDb.NetCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-      public string UserName { get; set; }
+namespace TestSmartDbConsole
+{
+    //[Table(TableName = "userinfo")]
+    //[Table(TableName="userinfo",IsGetAutoIncrementValue =true)]
+    public class UserInfo
+    {
+        [TableColumn(IsPrimaryKey = true)]
+        //[TableColumn(IsPrimaryKey = true,IsAutoIncrement =true)]
+        public int UserId { get; set; }
 
-      public int Age { get; set; }
+        public string UserName { get; set; }
 
-      public string Email { get; set; }
- }
+        //[TableColumn(IsSetDefaultValue=true, DefaultValue= 50)]
+        public int Age { get; set; }
+
+        public string Email { get; set; }
+    }
+}
+
 ```
 
 封装调用SmartDb.NetCore的封装类
 ```
-  public class DbTest
+ using SmartDb.NetCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+
+namespace TestSmartDbConsole
+{
+   public class DbBase<Entity>
     {
-        
-        private SqlDbContext _db;
-        private SqlDbFactory _dbFactory;
-        private string _dbOperator;
-        
-        public DbTest(SqlDbContext db)
-        {
-            _db = db;
-            _dbFactory = _db.DbBuilder.DbFactory;
-            _dbOperator = _dbFactory.GetDbParamOperator();
-        }
+        public SqlDbContext DbContext { get; set; }
 
         /// <summary>
         /// 写入数据
         /// </summary>
         public void Insert()
         {
-            _db.BeginTransaction();
-            for (int i = 1; i <= 10; i++)
+            DbContext.BeginTransaction();
+            for (int i = 1; i <= 5; i++)
             {
-                _db.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" });
+               var result= DbContext.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" });
             }
-            _db.CommitTransaction();
+            DbContext.CommitTransaction();
         }
 
         /// <summary>
@@ -66,7 +79,7 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void DeleteAll()
         {
-            var result = _db.Delete<UserInfo>("", null);
+            var result = DbContext.Delete<Entity>("", null);
         }
 
         /// <summary>
@@ -74,12 +87,16 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void Delete()
         {
-            //根据实体主键值查询数据
-            var result = _db.Delete<UserInfo>(1);
+            var dbFactory = DbContext.DbBuilder.DbFactory;
+            var dbOperator = dbFactory.GetDbParamOperator();
 
-            //根据过滤SQL、object参数查询数据列表1
-            result = _db.Delete<UserInfo>("UserId = 1", null);
-            result = _db.Delete<UserInfo>(string.Format("UserId={0}UserId", _dbOperator), new { UserId = 1 });
+            //根据主键值删除数据(此方法会采用SQL参数化)
+            var result = DbContext.Delete<Entity>(1);
+
+            ////根据过滤条件Sql和参数删除数据
+            result = DbContext.Delete<Entity>("UserId=1", null); //用法1
+            result = DbContext.Delete<Entity>("", new { UserId = 1 }); //用法2(此方法会采用SQL参数化)
+            result = DbContext.Delete<Entity>(string.Format("UserId={0}UserId", dbOperator), new { UserId = 1 }); //用法3(此方法会采用SQL参数化)
         }
 
         /// <summary>
@@ -87,11 +104,21 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void Update()
         {
-            //根据修改字段参数及值、过滤SQL、object参数修改数据
-            var data = _db.Query<UserInfo>(2);
-            data.UserName = "joyet22";
-            var result = _db.Update<UserInfo>(data);
-            result = _db.Update<UserInfo>(new { UserName = "joyet222" },2);
+            var dbFactory = DbContext.DbBuilder.DbFactory;
+            var dbOperator = dbFactory.GetDbParamOperator();
+
+            var item = DbContext.Query<Entity>(2);
+
+            //根据实体对象修改数据根据用法(此方法会采用SQL参数化)
+            var result = DbContext.Update<Entity>(item);
+
+            //根据修改字段参数、主键值修改数据用法(此方法会采用SQL参数化)
+            result = DbContext.Update<Entity>(new { UserName = "joyet2X" }, 2);
+
+            //根据要修改字段参数、过滤条件Sql、过滤参数修改数据
+            result = DbContext.Update<Entity>(new { UserName = "joyet2XX" }, "UserId=2", null);  //用法1
+            result = DbContext.Update<Entity>(new { UserName = "joyet2XXX" }, "", new { UserId = 2 }); //用法2(此方法会采用SQL参数化)
+            result = DbContext.Update<Entity>(new { UserName = "joyet2XXXX" }, string.Format("UserId={0}UserId", dbOperator), new { UserId = 2 }); //用法3(此方法会采用SQL参数化)
         }
 
         /// <summary>
@@ -99,20 +126,25 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void Query()
         {
-            //根据实体主键参数值查询数据
-            var data = _db.Query<UserInfo>(3);
+            var dbFactory = DbContext.DbBuilder.DbFactory;
+            var dbOperator = dbFactory.GetDbParamOperator();
 
-            //根据查询字段、过滤SQL、object参数查询数据列表
-            var dataList1 = _db.Query<UserInfo>("UserId,UserName", "UserId=3", null);
-            var dataList2 = _db.Query<UserInfo>("UserId,UserName", string.Format("UserId={0}UserId", _dbOperator), new { UserId = 3 });
+            //根据主键值查询数据(此方法会采用SQL参数化)
+            var data = DbContext.Query<Entity>(3);
 
-            //根据查询参数化SQL、object参数查询数据列表
-            var dataList3 = _db.Query<UserInfo>("select * from UserInfo where UserId=3", null);
-            var dataList4 = _db.Query<UserInfo>(string.Format("select * from UserInfo where UserId={0}UserId", _dbOperator), new { UserId = 3 });
+            //根据查询字段、过滤条件Sql、过滤条件参数查询数据
+            var dataList = DbContext.Query<Entity>("UserId,UserName", "UserId=3", null); //用法1
+            dataList = DbContext.Query<Entity>("UserId,UserName", "", new { UserId = 3 }); //用法2(此方法会采用SQL参数化)
+            dataList = DbContext.Query<Entity>("UserId,UserName", string.Format("UserId={0}UserId", dbOperator), new { UserId = 3 }); //用法3(此方法会采用SQL参数化)
+
+            //根据sql语句、过滤条件参数查询数据
+            dataList = DbContext.Query<Entity>("select * from UserInfo where UserId=3", null); //用法1
+            dataList = DbContext.Query<Entity>(string.Format("select * from UserInfo where UserId={0}UserId", dbOperator), new { UserId = 3 }); //用法1(此方法会采用SQL参数化)
 
             //分页查询列表
-            var pageDataList1 = _db.QueryPageList<UserInfo>("UserId,UserName", "UserId", "asc", 10, 1, string.Format("UserId>{0}UserId", _dbOperator), new { UserId = 3 });
-            var pageDataList2 = _db.QueryPageList<UserInfo>("*", "UserId", "asc", 10, 2, "UserId>2", null);
+            var pageDataList = DbContext.QueryPageList<Entity>("UserId,UserName", "UserId", "asc", 10, 1, "UserId=3", null);  //用法1
+            pageDataList = DbContext.QueryPageList<Entity>("UserId,UserName", "UserId", "asc", 10, 1, "", new { UserId = 3 });  //用法2(此方法会采用SQL参数化)
+            pageDataList = DbContext.QueryPageList<Entity>("UserId,UserName", "UserId", "asc", 10, 1, string.Format("UserId>{0}UserId", dbOperator), new { UserId = 3 });  //用法3(此方法会采用SQL参数化)
         }
 
         /// <summary>
@@ -120,23 +152,22 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void OrtherNoneQuery()
         {
+            var dbFactory = DbContext.DbBuilder.DbFactory;
+            var dbOperator = dbFactory.GetDbParamOperator();
+
             var sql = "delete from UserInfo where UserId=4";
-            var paramSql = string.Format("delete from UserInfo where UserId={0}UserId", _dbOperator);
+            var paramSql = string.Format("delete from UserInfo where UserId={0}UserId", dbOperator);
+
+            //根据SQL语句、IDbDataParameter参数删除数据
+            var result = DbContext.ExecuteNoneQuery(sql, null); //用法1(无参)
+
             var dbParams = new List<IDbDataParameter>();
-            dbParams.Add(_dbFactory.GetDbParam("UserId", 4));
+            dbParams.Add(dbFactory.GetDbParam("UserId", 4));
+            result = DbContext.ExecuteNoneQuery(paramSql, dbParams); //用法2(有参)
 
-            //根据SQL语句、IDbDataParameter参数列表删除数据用法1(无参)
-            var result = _db.ExecuteNoneQuery(sql, null);
-
-            //根据SQL语句、IDbDataParameter参数列表删除数据用法2(有参)
-            result = _db.ExecuteNoneQuery(paramSql, dbParams);
-
-            //根据SQL语句、object参数删除数据用法1(无参)
-            result = _db.ExecuteNoneQueryWithObjParam(sql);
-
-            //根据SQL语句、object参数删除数据用法2(有参)
-            result = _db.ExecuteNoneQueryWithObjParam(paramSql, new { UserId = 4 });
-
+            //根据SQL语句、object参数删除数据
+            result = DbContext.ExecuteNoneQueryWithObjParam(sql); //用法1(无参)
+            result = DbContext.ExecuteNoneQueryWithObjParam(paramSql, new { UserId = 4 }); //用法2(有参)
         }
 
         /// <summary>
@@ -144,41 +175,77 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
         /// </summary>
         public void OrtherQuery()
         {
+            var dbFactory = DbContext.DbBuilder.DbFactory;
+            var dbOperator = dbFactory.GetDbParamOperator();
+
             var sql = "select * from UserInfo where UserId=5";
-            var paramSql = string.Format("select * from UserInfo where UserId={0}UserId", _dbOperator);
-            List<UserInfo> dataList;
+            var paramSql = string.Format("select * from UserInfo where UserId={0}UserId", dbOperator);
+            List<Entity> dataList;
+
+            //根据SQL语句、IDbDataParameter参数删除数据
+            using (var dataReader = DbContext.ExecuteReader(sql, null)) //用法1(无参)
+            {
+                dataList = DbContext.DataReaderToEntityList<Entity>(dataReader);
+            }
+
             var dbParams = new List<IDbDataParameter>();
-            dbParams.Add(_dbFactory.GetDbParam("UserId", 5));
-
-            //根据SQL语句、IDbDataParameter参数列表删除数据用法2(无参)
-            using (var dataReader = _db.ExecuteReader(sql, null))
+            dbParams.Add(dbFactory.GetDbParam("UserId", 5));
+            using (var dataReader = DbContext.ExecuteReader(paramSql, dbParams)) //用法2(有参)
             {
-                dataList = _db.DataReaderToEntityList<UserInfo>(dataReader);
+                dataList = DbContext.DataReaderToEntityList<Entity>(dataReader);
             }
 
-            //根据SQL语句、IDbDataParameter参数列表删除数据用法2(有参)
-            using (var dataReader = _db.ExecuteReader(sql, dbParams))
+            //根据SQL语句、object参数查询数据
+            using (var dataReader = DbContext.ExecuteReaderWithObjParam(sql, null)) //用法1(无参)
             {
-                dataList = _db.DataReaderToEntityList<UserInfo>(dataReader);
+                dataList = DbContext.DataReaderToEntityList<Entity>(dataReader);
             }
-
-            //根据SQL语句、object参数查询数据用法1(无参)
-            using (var dataReader = _db.ExecuteReaderWithObjParam(sql, null))
+            using (var dataReader = DbContext.ExecuteReaderWithObjParam(paramSql, new { UserId = 5 })) //用法2(有参)
             {
-                dataList = _db.DataReaderToEntityList<UserInfo>(dataReader);
-            }
-
-            //根据SQL语句、object参数查询数据用法1(有参)
-            using (var dataReader = _db.ExecuteReaderWithObjParam(paramSql, new { UserId = 5 }))
-            {
-                dataList = _db.DataReaderToEntityList<UserInfo>(dataReader);
+                dataList = DbContext.DataReaderToEntityList<Entity>(dataReader);
             }
         }
     }
+}
+
+using SmartDb.NetCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestSmartDbConsole
+{
+    public class DbTest:DbBase<UserInfo>
+    {
+        public DbTest(SqlDbContext dbContext)
+        {
+            DbContext = dbContext;
+        }
+    }
+}
+
 ```
 控制台调用示例代码：
 ```
- class Program
+ using SmartDb.MySql.NetCore;
+using SmartDb.NetCore;
+using SmartDb.PostgreSql.NetCore;
+using SmartDb.SQLite.NetCore;
+using SmartDb.SqlServer.NetCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace TestSmartDbConsole
+{
+    class Program
     {
         static void Main(string[] args)
         {
@@ -187,14 +254,25 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             Console.ReadLine();
         }
 
-       
         public static void TestMySql()
         {
             string connectString = "server=localhost;User Id=root;password=123456;Database=testdb;SslMode=None;";
             SqlDbContext db = new MySqlDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendFormat("sql:{0}\n", cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.AppendFormat("paramName:{0},paramValue:{1}\n", param.ParameterName,param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
@@ -211,8 +289,20 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             string connectString = "server=localhost;user id=sa;password=123456;database=testdb;pooling=true;min pool size=5;max pool size=512;connect timeout = 60;";
             SqlDbContext db = new SqlServerDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
@@ -234,10 +324,23 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             }
             SqlDbContext db = new SQLiteDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
-            var sql = "create  table UserInfo(UserId int not null,UserName  varchar(50),Age int,Email varchar(50))";
+            //var sql = "create  table UserInfo(UserId int identity(1,1) primary key,UserName  varchar(50),Age int,Email varchar(50))";
+            var sql = "create  table UserInfo(UserId int  primary key,UserName  varchar(50),Age int,Email varchar(50))";
             db.ExecuteNoneQuery(sql, null);
 
             var dbTest = new DbTest(db);
@@ -255,8 +358,20 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             string connectString = "server=192.168.58.131;port=5432;user id=xiaozhang1;password=123456;database=testdb;";
             SqlDbContext db = new PostgreSqlDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
@@ -268,4 +383,6 @@ SmartDb.PostgreSql.NetCore是此框架对PostgreSql支持的Nuget包，Nuget包�
             dbTest.OrtherNoneQuery();
         }
      }
+}
+
 ```

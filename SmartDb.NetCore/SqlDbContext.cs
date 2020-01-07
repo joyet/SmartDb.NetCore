@@ -22,6 +22,16 @@ namespace SmartDb.NetCore
         /// </summary>
         public SqlBuilder DbBuilder { get; set; }
 
+        /// <summary>
+        /// SmartDb数据库类型
+        /// </summary>
+        public SmartDbTypes CurrentDbType { get; set; }
+
+        /// <summary>
+        /// 数据库执行回调函数对象
+        /// </summary>
+        public Action<string, List<IDbDataParameter>> ExecuteDbCallBack { get; set; }
+
         #endregion
 
         public SqlDbContext()
@@ -42,6 +52,7 @@ namespace SmartDb.NetCore
         {
             int result = 0;
             result = DbHelper.ExecuteNonQuery(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -57,6 +68,7 @@ namespace SmartDb.NetCore
             int result = 0;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteNonQuery(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -71,6 +83,7 @@ namespace SmartDb.NetCore
         {
             DataSet result = null;
             result = DbHelper.ExecuteQuery(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -86,6 +99,7 @@ namespace SmartDb.NetCore
             DataSet result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteQuery(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -100,6 +114,7 @@ namespace SmartDb.NetCore
         {
             IDataReader result = null;
             result = DbHelper.ExecuteReader(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -115,6 +130,7 @@ namespace SmartDb.NetCore
             IDataReader result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteReader(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -129,6 +145,7 @@ namespace SmartDb.NetCore
         {
             object result = null;
             result = DbHelper.ExecuteScalar(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
@@ -144,30 +161,47 @@ namespace SmartDb.NetCore
             object result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteScalar(cmdText, dbParams, cmdType);
+            HandelExecuteDbCallBack(cmdText, dbParams);
             return result;
         }
 
         /// <summary>
-        /// 添加单条实体对象数据
+        /// 添加单条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual int Insert<T>(T entity)
+        public virtual object Insert<T>(T entity)
         {
-            int result = 0;
+            object result = null;
             var dbEntity = DbBuilder.Insert<T>(entity);
             if (dbEntity == null)
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
-            result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            if (!dbEntity.TableEntity.IsGetAutoIncrementValue)
+            {
+                result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            }
+            else
+            {
+                var dbTypeValue = Convert.ToInt32(CurrentDbType);
+                switch (dbTypeValue)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        result = ExecuteScalar(dbEntity.CommandText, dbEntity.DbParams);
+                        break;
+                }
+            }
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据主键删除实体对应数据
+        /// 根据主键值删除数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -180,17 +214,17 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据过滤条件Sql、过滤条件字段名及字段值参数删除实体对应数据
+        /// 根据过滤条件Sql和参数(参数名和参数值)删除数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
         public virtual int Delete<T>(string whereSql, object whereParam)
         {
@@ -200,8 +234,8 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -219,16 +253,16 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        ///  修改字段名及字段值参数、主键值修改实体对应数据
+        ///  根据修改字段参数(参数名和参数值)、主键值修改数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="updateParam">修改字段参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <param name="id"></param>
         /// <returns></returns>
         public virtual int Update<T>(object updateParams, object id)
@@ -239,34 +273,34 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据修改字段名及字段值参数、过滤条件Sql、过滤条件字段名及字段值参数修改实体对应数据
+        /// 根据要修改字段参数(参数名和参数值)、过滤条件Sql、过滤字段参数(参数名和参数值)修改数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="updateParam">要修改字段参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {UserId=1}</param>
+        /// <param name="whereParam">过滤字段参数(参数名和参数值),例:new {UserId=1}</param>
         /// <returns></returns>
-        public virtual int Update<T>(object updateParams,string whereSql, object whereParams)
+        public virtual int Update<T>(object updateParam, string whereSql, object whereParam)
         {
             int result = 0;
-            var dbEntity = DbBuilder.Update<T>(updateParams, whereSql, whereParams);
+            var dbEntity = DbBuilder.Update<T>(updateParam, whereSql, whereParam);
             if (dbEntity == null)
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据主键查询实体对应数据
+        ///根据主键值查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -279,23 +313,23 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntity<T>(reader);
             }
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据查询字段、过滤条件Sql、过滤条件字段名及字段值参数修改实体对应数据
+        /// 根据查询字段、过滤条件Sql、过滤条件参数(参数名和参数值)查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryColumns">要查询字段</param>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual List<T> Query<T>(string queryColumns,string whereSql, object whereParam)
+        public virtual List<T> Query<T>(string queryColumns, string whereSql, object whereParam)
         {
             List<T> result = null;
             var dbEntity = DbBuilder.Query<T>(queryColumns, whereSql, whereParam);
@@ -303,20 +337,20 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntityList<T>(reader);
             }
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
         /// <summary>
-        /// 根据sql语句、字段名及字段值参数查询实体对应数据
+        /// 根据sql语句、过滤条件参数(参数名和参数值)查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="objParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
         public virtual List<T> Query<T>(string sql, object objParam)
         {
@@ -326,11 +360,11 @@ namespace SmartDb.NetCore
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 result = DataReaderToEntityList<T>(reader);
             }
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -346,7 +380,7 @@ namespace SmartDb.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual PageResultEntity QueryPageList<T>(string queryColumns,string sortColumn,string sortType, long pageSize, long pageIndex,string whereSql, object whereObjParam)
+        public virtual PageResultEntity QueryPageList<T>(string queryColumns,string sortColumn,string sortType, int pageSize, int pageIndex, string whereSql, object whereParam)
         {
             PageResultEntity result = new PageResultEntity();
             if (pageSize <= 0|| pageIndex<=0)
@@ -359,7 +393,7 @@ namespace SmartDb.NetCore
             #region 为了分页查询效率，查询第一页时才会查询所有条数
             if (result.CurrentPageIndex==1)
             {
-                var totalPageDbEntity = DbBuilder.QueryTotalPageCount<T>(whereSql, whereObjParam);
+                var totalPageDbEntity = DbBuilder.QueryTotalPageCount<T>(whereSql, whereParam);
                 if (totalPageDbEntity == null)
                 {
                     return result;
@@ -377,18 +411,18 @@ namespace SmartDb.NetCore
             }
             #endregion
 
-            var dbEntity = DbBuilder.QueryPageList<T>(queryColumns,sortColumn,sortType,pageSize,pageIndex, whereSql, whereObjParam);
+            var dbEntity = DbBuilder.QueryPageList<T>(queryColumns,sortColumn,sortType,pageSize,pageIndex, whereSql, whereParam);
             if (dbEntity == null)
             {
                 return result;
             }
-            DbHelper.DbEntity = dbEntity;
             using (var reader = DbHelper.ExecuteReader(dbEntity.CommandText, dbEntity.DbParams))
             {
                 var datas = DataReaderToEntityList<T>(reader);
                 result.Data = datas;
                 result = SetPageListResult<T>(result);
             }
+            HandelExecuteDbCallBack(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -490,7 +524,7 @@ namespace SmartDb.NetCore
         /// <returns></returns>
         public virtual List<T> DataTableToEntityList<T>(DataTable dt)
         {
-            List<T> entityList = null;
+            List<T> entityList = new List<T>();
             if (dt == null)
             {
                 return entityList;
@@ -545,6 +579,15 @@ namespace SmartDb.NetCore
             return pageResult;
         }
 
+        /// <summary>
+        /// 设置数据执行回调函数
+        /// </summary>
+        /// <param name="cmdText"></param>
+        /// <param name="dbParams"></param>
+        protected void HandelExecuteDbCallBack(string cmdText, List<IDbDataParameter> dbParams)
+        {
+            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
+        }
         #endregion
     }
 }

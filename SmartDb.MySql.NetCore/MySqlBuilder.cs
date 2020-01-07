@@ -22,7 +22,7 @@ namespace SmartDb.MySql.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public override DbEntity QueryPageList<T>(string  queryColumns, string sortColumn, string sortType, long pageSize, long pageIndex, string whereSql, object whereParam)
+        public override DbEntity QueryPageList<T>(string  queryColumns, string sortColumn, string sortType, int pageSize, int pageIndex,string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             dbEntity = base.QueryPageList<T>(queryColumns,sortColumn,sortType,pageSize,pageIndex, whereSql, whereParam);
@@ -30,35 +30,50 @@ namespace SmartDb.MySql.NetCore
             {
                 return dbEntity;
             }
-            Type type = typeof(T);
+            var type = typeof(T);
             var attributeBuilder = new AttributeBuilder();
             var tableEntity = attributeBuilder.GetTableInfo(type);
             dbEntity.TableEntity = tableEntity;
             var startNum = pageSize * (pageIndex - 1);
             var dbOperator = DbFactory.GetDbParamOperator();
-            List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereParam);
+            var whereColumns = attributeBuilder.GetColumnInfos(whereParam);
             var dbParams = new List<IDbDataParameter>();
 
             //分页查询模板
-            var queryTemplate = @"select  {queryColumns} from 
-(
-	select {sortColumn} from {tableName} {whereCriteria} order by {sortColumn} {sortType} limit {startNum},{pageSize}
-) 
-a inner join {tableName} b on a.{sortColumn}=b.{sortColumn} order by b.{sortColumn} {sortType};";
-            StringBuilder sqlBuild = new StringBuilder(queryTemplate);
-            sqlBuild.Replace("{sortColumn}", sortColumn);
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            sqlBuild.Replace("{sortType}", sortType);
-            sqlBuild.Replace("{startNum}", startNum.ToString());
-            sqlBuild.Replace("{pageSize}", pageSize.ToString());
-            var queryItem = HandleQueryColumParam(queryColumns, "b", sqlBuild);
-            sqlBuild = queryItem.Item1;
-            var whereItem= HandleWhereParam(whereSql, whereColumns, sqlBuild,dbParams);
-            sqlBuild = whereItem.Item1;
+            var sqlBuilder = new StringBuilder();
+            sqlBuilder.AppendLine("select  {queryColumns} from");
+            sqlBuilder.AppendLine("(");
+            sqlBuilder.AppendLine("select {sortColumn} from {tableName} {whereCriteria} order by {sortColumn} {sortType} limit {startNum},{pageSize}");
+            sqlBuilder.AppendLine(")");
+            sqlBuilder.AppendLine("a inner join {tableName} b on a.{sortColumn}=b.{sortColumn} order by b.{sortColumn} {sortType}");
+            sqlBuilder.Replace("{sortColumn}", sortColumn);
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+            sqlBuilder.Replace("{sortType}", sortType);
+            sqlBuilder.Replace("{startNum}", startNum.ToString());
+            sqlBuilder.Replace("{pageSize}", pageSize.ToString());
+
+            //处理查询字段参数
+            var queryColumnItem = HandleQueryColumnParam(queryColumns, "b", sqlBuilder);
+            sqlBuilder = queryColumnItem.Item1;
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
             dbParams = whereItem.Item2;
-            dbEntity.CommandText = sqlBuild.ToString();
+
+            dbEntity.CommandText = sqlBuilder.ToString();
             dbEntity.DbParams = dbParams;
             return dbEntity;
+        }
+
+        /// <summary>
+        /// 设置数据库自动增长sql
+        /// </summary>
+        /// <returns></returns>
+        public override string GetAutoIncrementSql()
+        {
+            string sql = "select last_insert_id();";
+            return sql;
         }
     }
 }

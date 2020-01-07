@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,14 +22,25 @@ namespace TestSmartDbConsole
             Console.ReadLine();
         }
 
-       
         public static void TestMySql()
         {
             string connectString = "server=localhost;User Id=root;password=123456;Database=testdb;SslMode=None;";
             SqlDbContext db = new MySqlDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendFormat("sql:{0}\n", cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.AppendFormat("paramName:{0},paramValue:{1}\n", param.ParameterName,param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
@@ -45,17 +57,29 @@ namespace TestSmartDbConsole
             string connectString = "server=localhost;user id=sa;password=123456;database=testdb;pooling=true;min pool size=5;max pool size=512;connect timeout = 60;";
             SqlDbContext db = new SqlServerDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
-            //dbTest.DeleteAll();
-            //dbTest.Insert();
+            dbTest.DeleteAll();
+            dbTest.Insert();
             dbTest.Delete();
-            //dbTest.Update();
-            //dbTest.Query();
-            //dbTest.OrtherQuery();
-            //dbTest.OrtherNoneQuery();
+            dbTest.Update();
+            dbTest.Query();
+            dbTest.OrtherQuery();
+            dbTest.OrtherNoneQuery();
         }
 
         public static void TestSqlite()
@@ -68,10 +92,23 @@ namespace TestSmartDbConsole
             }
             SqlDbContext db = new SQLiteDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
-            var sql = "create  table UserInfo(UserId int not null,UserName  varchar(50),Age int,Email varchar(50))";
+            //var sql = "create  table UserInfo(UserId int identity(1,1) primary key,UserName  varchar(50),Age int,Email varchar(50))";
+            var sql = "create  table UserInfo(UserId int  primary key,UserName  varchar(50),Age int,Email varchar(50))";
             db.ExecuteNoneQuery(sql, null);
 
             var dbTest = new DbTest(db);
@@ -89,8 +126,20 @@ namespace TestSmartDbConsole
             string connectString = "server=192.168.58.131;port=5432;user id=xiaozhang1;password=123456;database=testdb;";
             SqlDbContext db = new PostgreSqlDbContext(connectString);
 
-            //SmartDb框架提供一个记录日志委托用来记录执行SQL及参数信息，ConsoleWriteInfo在控制台输出，大家可以根据自己需要自己定义方法传给DbHelper.logAction会自动进行调用
-            db.DbHelper.logAction = db.DbHelper.ConsoleWriteInfo;
+            //数据执行回调函数
+            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("sql:" + cmdText);
+                if (dbParms != null)
+                {
+                    foreach (IDbDataParameter param in dbParms)
+                    {
+                        stringBuilder.Append("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
+                    }
+                }
+                stringBuilder.Append("\n\n");
+                Console.Write(stringBuilder.ToString());
+            };
 
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();

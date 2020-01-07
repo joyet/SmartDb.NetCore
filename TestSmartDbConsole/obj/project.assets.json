@@ -269,13 +269,14 @@
           }
         }
       },
-      "MySql.Data/8.0.17": {
+      "MySql.Data/8.0.18": {
         "type": "package",
         "dependencies": {
           "BouncyCastle.NetCore": "1.8.3",
           "Google.Protobuf": "3.6.1",
           "SSH.NET": "2016.1.0",
           "System.Configuration.ConfigurationManager": "4.4.1",
+          "System.Resources.Extensions": "4.6.0-preview8.19405.3",
           "System.Security.Permissions": "4.4.1",
           "System.Text.Encoding.CodePages": "4.4.0"
         },
@@ -884,6 +885,15 @@
           "lib/netstandard1.5/System.Reflection.TypeExtensions.dll": {}
         }
       },
+      "System.Resources.Extensions/4.6.0-preview8.19405.3": {
+        "type": "package",
+        "compile": {
+          "ref/netstandard2.0/System.Resources.Extensions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Resources.Extensions.dll": {}
+        }
+      },
       "System.Resources.ResourceManager/4.0.1": {
         "type": "package",
         "dependencies": {
@@ -1356,7 +1366,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "MySql.Data": "8.0.17",
+          "MySql.Data": "8.0.18",
           "SmartDb.Mapper.NetCore": "2.85.0",
           "SmartDb.NetCore": "2.87.0"
         },
@@ -1907,20 +1917,19 @@
         "version.txt"
       ]
     },
-    "MySql.Data/8.0.17": {
-      "sha512": "sOZDjxPC7zcgt4IvR14cMdSqwF3Dp6ER2jNkbGpP4bf/n+v55vzLC2TO4qskB+qBhjt0Q2B+w38V31ogo3cQaw==",
+    "MySql.Data/8.0.18": {
+      "sha512": "NHJzaIWgqWkDMQCU7lmRMJtqTLHO3Mici5ktnZJiiS8oieMGtVm6KWuUuC9M6WJw6dJbIRSoVr8uxwVeKm6wgg==",
       "type": "package",
-      "path": "mysql.data/8.0.17",
+      "path": "mysql.data/8.0.18",
       "files": [
-        ".nupkg.metadata",
         ".signature.p7s",
         "lib/net452/MySql.Data.dll",
         "lib/net452/MySql.Data.xml",
-        "lib/netstandard1.6/MySql.Data.dll",
-        "lib/netstandard1.6/MySql.Data.xml",
         "lib/netstandard2.0/MySql.Data.dll",
         "lib/netstandard2.0/MySql.Data.xml",
-        "mysql.data.8.0.17.nupkg.sha512",
+        "lib/netstandard2.1/MySql.Data.dll",
+        "lib/netstandard2.1/MySql.Data.xml",
+        "mysql.data.8.0.18.nupkg.sha512",
         "mysql.data.nuspec"
       ]
     },
@@ -3806,6 +3815,23 @@
         "runtimes/aot/lib/netcore50/System.Reflection.TypeExtensions.dll",
         "system.reflection.typeextensions.4.1.0.nupkg.sha512",
         "system.reflection.typeextensions.nuspec"
+      ]
+    },
+    "System.Resources.Extensions/4.6.0-preview8.19405.3": {
+      "sha512": "29RnS00W/s9B9LijacmdarAKsUDMn7GoAU90eEQSsofNHISdbAhbaJzxaofaIPpLcGxI8JtpErOMHEqMNO42pA==",
+      "type": "package",
+      "path": "system.resources.extensions/4.6.0-preview8.19405.3",
+      "files": [
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard2.0/System.Resources.Extensions.dll",
+        "lib/netstandard2.0/System.Resources.Extensions.xml",
+        "ref/netstandard2.0/System.Resources.Extensions.dll",
+        "system.resources.extensions.4.6.0-preview8.19405.3.nupkg.sha512",
+        "system.resources.extensions.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Resources.ResourceManager/4.0.1": {

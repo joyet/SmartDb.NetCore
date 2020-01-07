@@ -79,20 +79,5 @@ namespace SmartDb.MySql.NetCore
         {
             return "?";
         }
-
-        /// <summary>
-        /// 获取数据库自动增长sql
-        /// </summary>
-        /// <param name="isGetIncrementValue"></param>
-        /// <returns></returns>
-        public override string GetIncrementSql(bool isGetIncrementValue)
-        {
-            string sql = string.Empty;
-            if (isGetIncrementValue)
-            {
-                sql = "select @@identity";
-            }
-            return sql;
-        }
     }
 }

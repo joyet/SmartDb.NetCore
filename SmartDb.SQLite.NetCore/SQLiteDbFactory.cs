@@ -59,14 +59,5 @@ namespace SmartDb.SQLite.NetCore
             return dbParam;
         }
 
-        /// <summary>
-        /// 获取数据库参数化关键字操作符
-        /// </summary>
-        /// <returns></returns>
-        public override string GetDbParamOperator()
-        {
-            return "@";
-        }
-
     }
 }

@@ -15,6 +15,8 @@ namespace SmartDb.SQLite.NetCore
             DbHelper.DbFactory = dbFactory;
             DbBuilder = new SQLiteBuilder();
             DbBuilder.DbFactory = dbFactory;
+            DbBuilder.CurrentDbType = SmartDbTypes.SQLite;
+            CurrentDbType = SmartDbTypes.SQLite;
         }
 
     }

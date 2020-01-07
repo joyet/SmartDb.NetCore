@@ -41,16 +41,6 @@ namespace SmartDb.NetCore
         /// </summary>
         public  SqlDbFactory DbFactory { get; set; }
 
-        /// <summary>
-        /// 日志记录委托对象
-        /// </summary>
-        public Action<string, List<IDbDataParameter>> logAction { get; set; }
-
-        /// <summary>
-        /// DB实体
-        /// </summary>
-        public DbEntity DbEntity { get; set; }
-
         #endregion
 
         #region private、internal、public   Methods
@@ -60,7 +50,6 @@ namespace SmartDb.NetCore
             ConnectionString = string.Empty;
             DbFactory = null;
             IsStartTrans = false;
-            logAction = null;
         }
 
         /// <summary>
@@ -172,34 +161,6 @@ namespace SmartDb.NetCore
                     cmd.Parameters.Add(parameter);
                 }
             }
-            if (logAction!= null)
-            {
-                logAction(cmdText, dbParms);
-            }
-        }
-
-        /// <summary>
-        /// 控制台输出相关SQL和信息
-        /// </summary>
-        /// <param name="cmdText"></param>
-        /// <param name="dbParms"></param>
-        public void ConsoleWriteInfo(string cmdText, List<IDbDataParameter> dbParms)
-        {
-            if (string.IsNullOrEmpty(cmdText))
-            {
-                return;
-            }
-            StringBuilder logRecordBuilder = new StringBuilder();
-            Console.WriteLine("Sql:" + cmdText);
-            if (dbParms==null)
-            {
-                return;
-            }
-            foreach (IDbDataParameter dbParam in dbParms)
-            {
-                Console.WriteLine("ParameterName:" + dbParam.ParameterName + ",ParameterValue:" + dbParam.Value.ToString());
-            }
-            Console.WriteLine("\n");
         }
 
         #endregion

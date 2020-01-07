@@ -15,6 +15,7 @@ namespace SmartDb.MySql.NetCore
             DbHelper.DbFactory = dbFactory;
             DbBuilder = new MySqlBuilder();
             DbBuilder.DbFactory = dbFactory;
+            DbBuilder.CurrentDbType = SmartDbTypes.MySql;
         }
 
     }

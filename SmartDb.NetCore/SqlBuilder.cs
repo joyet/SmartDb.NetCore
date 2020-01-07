@@ -15,7 +15,12 @@ namespace SmartDb.NetCore
         public virtual SqlDbFactory DbFactory { get; set; }
 
         /// <summary>
-        /// 添加当前实体对应数据
+        /// SmartDb数据库类型
+        /// </summary>
+        public SmartDbTypes CurrentDbType { get; set; }
+
+        /// <summary>
+        /// 添加单条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
@@ -39,32 +44,54 @@ namespace SmartDb.NetCore
             {
                 return dbEntity;
             }
-            var noneAutoIncrementColumns = columns.Where(a => !a.IsAutoIncrement).ToList();
-            var columnNameList = new List<string>();
-            var paramColumnList = new List<string>();
+            var noAutoIncrementColumns = columns.Where(a => !a.IsAutoIncrement&&!a.IsIgnoreAdd).ToList();
             var dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
-            var sqlBuild = new StringBuilder("insert into {tableName}({columnNames}) values({columnValues})");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            foreach (var column in noneAutoIncrementColumns)
+            var sqlBuilder = new StringBuilder("insert into {tableName}({columnNames}) values({columnValues});");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            #region 处理添加字段及参数SQL语句
+            var addItem = HandleAddColumnValueParam(noAutoIncrementColumns, sqlBuilder,dbParams);
+            sqlBuilder = addItem.Item1;
+            dbParams = addItem.Item2;
+            #endregion
+
+            #region 处理自动增长列Sql
+            var autoIncrementColumn = columns.Where(a => a.IsAutoIncrement).FirstOrDefault();
+            if (tableEntity.IsGetAutoIncrementValue && autoIncrementColumn != null)
             {
-                columnNameList.Add(column.ColumnName);
-                paramColumnList.Add(dbOperator + column.ColumnName);
-                dbParams.Add(DbFactory.GetDbParam(column));
+                var dbTypeValue = Convert.ToInt32(CurrentDbType);
+                switch (dbTypeValue)
+                {
+                    case 1:
+                    case 2:
+                        sqlBuilder.Append(GetAutoIncrementSql());
+                        break;
+                    case 3:
+                        sqlBuilder.AppendFormat(GetAutoIncrementSql(), autoIncrementColumn.ColumnName);
+                        break;
+                    case 4:
+                        sqlBuilder.AppendFormat(GetAutoIncrementSql(), tableEntity.TableName);
+                        break;
+                }
             }
-            sqlBuild.Replace("{columnNames}", string.Join(",", columnNameList));
-            sqlBuild.Replace("{columnValues}",string.Join(",", paramColumnList));
+            else
+            {
+                tableEntity.IsGetAutoIncrementValue = false;
+            }
+            #endregion
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams
             };
             return dbEntity;
         }
 
         /// <summary>
-        /// 根据主键删除实体对应数据
+        /// 根据主键值删除数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -87,28 +114,31 @@ namespace SmartDb.NetCore
             pkColumn.ColumnValue = id;
             string dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
-            StringBuilder sqlBuild = new StringBuilder("delete from {tableName} where {pkColumn}={dbOperator}{pkColumn}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
-            sqlBuild.Replace("{dbOperator}", dbOperator);
-            dbParams.Add(DbFactory.GetDbParam(pkColumn));
+            StringBuilder sqlBuilder = new StringBuilder("delete from {tableName} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam("",new List<TableColumnAttribute>() { pkColumn }, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
+            dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams
             };
             return dbEntity;
         }
 
         /// <summary>
-        /// 根据过滤条件Sql、过滤条件字段名及字段值参数删除实体对应数据
+        /// 根据过滤条件参数(参数名和参数值)删除数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity Delete<T>(string whereSql, object whereParam)
+        public virtual DbEntity Delete<T>(string whereSql,object whereParam)
         {
             DbEntity dbEntity = null;
             Type type = typeof(T);
@@ -117,15 +147,18 @@ namespace SmartDb.NetCore
             var dbOperatore = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
             var whereColumns = attributeBuilder.GetColumnInfos(whereParam);
-            StringBuilder sqlBuild = new StringBuilder("delete from {tableName} {whereCriteria}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
-            sqlBuild = whereItem.Item1;
+            StringBuilder sqlBuilder = new StringBuilder("delete from {tableName} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
             dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams
             };
             return dbEntity;
@@ -148,40 +181,45 @@ namespace SmartDb.NetCore
             var attributeBuilder = new AttributeBuilder();
             var tableEntity = attributeBuilder.GetTableInfo(type);
             var columns = attributeBuilder.GetColumnInfos(type, entity);
-            if (columns==null||columns.Count <0)
+            if (columns.Count <0)
             {
                 return dbEntity;
             }
             var pkColumn = columns.Where(a => a.IsPrimaryKey).FirstOrDefault();
-            if (pkColumn == null|| columns.Where(a => !a.IsPrimaryKey).FirstOrDefault() == null)
+            var updateColumns = columns.Where(a => !a.IsPrimaryKey).ToList();
+            if (pkColumn == null|| updateColumns.Count<0)
             {
                 return dbEntity;
             }
-            var updateColumns = columns.Where(a => !a.IsPrimaryKey).ToList();
             var dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
-            var sqlBuild = new StringBuilder("update {tableName} set {updateCriteria} where {pkColumn}={dbOperator}{pkColumn}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
-            sqlBuild.Replace("{dbOperator}", dbOperator);
-            var updateItem= HandleUpdateParam(updateColumns,sqlBuild,dbParams);
-            sqlBuild = updateItem.Item1;
+            var sqlBuilder = new StringBuilder("update {tableName} set {updateCriteria} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理更改字段参数
+            var updateItem = HandleUpdateParam(updateColumns, sqlBuilder, dbParams);
+            sqlBuilder = updateItem.Item1;
             dbParams = updateItem.Item2;
-            dbParams.Add(DbFactory.GetDbParam(pkColumn));
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam("",new List<TableColumnAttribute>() { pkColumn }, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
+            dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams
             };
             return dbEntity;
         }
 
         /// <summary>
-        ///  修改字段名及字段值参数、主键值修改实体对应数据
+        ///  根据修改字段参数(参数名和参数值)、主键值修改数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="updateParam">修改字段参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <param name="id"></param>
         /// <returns></returns>
         public virtual DbEntity Update<T>(object updateParam, object id)
@@ -203,30 +241,35 @@ namespace SmartDb.NetCore
             pkColumn.ColumnValue = id;
             var dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
-            StringBuilder sqlBuild = new StringBuilder("update {tableName} set {updateCriteria}  where {pkColumn}={dbOperator}{pkColumn}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
-            sqlBuild.Replace("{dbOperator}", dbOperator);
-            var updateItem = HandleUpdateParam(updateColumns, sqlBuild, dbParams);
-            sqlBuild = updateItem.Item1;
+            var sqlBuilder = new StringBuilder("update {tableName} set {updateCriteria} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理更改字段参数
+            var updateItem = HandleUpdateParam(updateColumns, sqlBuilder, dbParams);
+            sqlBuilder = updateItem.Item1;
             dbParams = updateItem.Item2;
-            dbParams.Add(DbFactory.GetDbParam(pkColumn));
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam("",new List<TableColumnAttribute>() { pkColumn }, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
+            dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams,
             };
             return dbEntity;
         }
 
         /// <summary>
-        /// 根据修改字段名及字段值参数、过滤条件Sql、过滤条件字段名及字段值参数修改实体对应数据
+        /// 根据要修改字段参数(参数名和参数值)、过滤字段参数(参数名和参数值)修改数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="updateParam">修改字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="updateParam">要修改字段参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {UserId=1}</param>
+        /// <param name="whereParam">过滤字段参数(参数名和参数值),例:new {UserId=1}</param>
         /// <returns></returns>
         public virtual DbEntity Update<T>(object updateParam, string whereSql, object whereParam)
         {
@@ -246,25 +289,30 @@ namespace SmartDb.NetCore
             string dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
             List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereParam);
-            StringBuilder sqlBuild = new StringBuilder("update {tableName} set {updateCriteria} {whereCriteria}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            var updateItem = HandleUpdateParam(updateColumns, sqlBuild, dbParams);
-            sqlBuild = updateItem.Item1;
+            var sqlBuilder = new StringBuilder("update {tableName} set {updateCriteria} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理更改字段参数
+            var updateItem = HandleUpdateParam(updateColumns, sqlBuilder, dbParams);
+            sqlBuilder = updateItem.Item1;
             dbParams = updateItem.Item2;
-            var whereItem = HandleWhereParam(whereSql, whereColumns,sqlBuild, dbParams);
-            sqlBuild = whereItem.Item1;
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam(whereSql,whereColumns, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
             dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams,
             };
             return dbEntity;
         }
 
         /// <summary>
-        ///根据主键查询实体对应数据
+        ///根据主键值查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -283,63 +331,71 @@ namespace SmartDb.NetCore
             pkColumn.ColumnValue = id;
             string dbOperator = DbFactory.GetDbParamOperator();
             List<IDbDataParameter> dbParams = new List<IDbDataParameter>();
-            StringBuilder sqlBuild = new StringBuilder("select * from {tableName} where {pkColumn}={dbOperator}{pkColumn}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            sqlBuild.Replace("{pkColumn}", pkColumn.ColumnName);
-            sqlBuild.Replace("{dbOperator}", dbOperator);
-            dbParams.Add(DbFactory.GetDbParam(pkColumn));
+            StringBuilder sqlBuilder = new StringBuilder("select * from {tableName} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName); 
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam("",new List<TableColumnAttribute>() { pkColumn }, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
+            dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams,
             };
             return dbEntity;
         }
 
         /// <summary>
-        /// 根据查询字段、过滤条件Sql、过滤条件字段名及字段值参数修改实体对应数据
+        /// 根据查询字段、过滤条件参数(参数名和参数值)查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="queryColumns">要查询字段</param>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity Query<T>(string queryColumns,string whereSql, object whereObjParam)
+        public virtual DbEntity Query<T>(string queryColumns, string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             if (string.IsNullOrEmpty(queryColumns))
             {
-                return dbEntity;
+                queryColumns = "*";
             }
             Type type = typeof(T);
             var attributeBuilder = new AttributeBuilder();
             var tableEntity = attributeBuilder.GetTableInfo(type);
             string dbOperator = DbFactory.GetDbParamOperator();
             var dbParams = new List<IDbDataParameter>();
-            List<TableColumnAttribute> whereColumns = new AttributeBuilder().GetColumnInfos(whereObjParam);
-            StringBuilder sqlBuild = new StringBuilder("select {queryColumns} from {tableName} {whereCriteria}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            var queryItem = HandleQueryColumParam(queryColumns, "",  sqlBuild);
-            sqlBuild = queryItem.Item1;
-            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
-            sqlBuild = whereItem.Item1;
+            List<TableColumnAttribute> whereColumns = new AttributeBuilder().GetColumnInfos(whereParam);
+            StringBuilder sqlBuilder = new StringBuilder("select {queryColumns} from {tableName} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理查询字段参数
+            var queryColumnItem = HandleQueryColumnParam(queryColumns, "", sqlBuilder);
+            sqlBuilder = queryColumnItem.Item1;
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam(whereSql,whereColumns, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
             dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams,
             };
             return dbEntity;
         }
 
         /// <summary>
-        /// 根据sql语句、字段名及字段值参数查询实体对应数据
+        /// 根据sql语句、过滤条件参数(参数名和参数值)查询数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="objParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
         public virtual DbEntity Query<T>(string sql, object objParam)
         {
@@ -370,9 +426,9 @@ namespace SmartDb.NetCore
         /// <param name="pageSize">每页条数</param>
         /// <param name="pageIndex">第几页</param>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity QueryPageList<T>(string queryColumns,string sortColumn, string sortType, long pageSize, long pageIndex, string whereSql, object whereObjParam)
+        public virtual DbEntity QueryPageList<T>(string queryColumns,string sortColumn, string sortType, int pageSize, int pageIndex, string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             if (string.IsNullOrEmpty(sortColumn) || string.IsNullOrEmpty(sortType))
@@ -388,13 +444,13 @@ namespace SmartDb.NetCore
         }
 
         /// <summary>
-        /// 根据查询条件、where参数查询实体对应数据总数量
+        /// 根据过滤条件参数(参数名和参数值)查询数据总数量
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="whereSql">过滤条件Sql</param>
-        /// <param name="whereParam">过滤条件字段名及字段值参数,例:new {Uname="joyet",Age = 110}</param>
+        /// <param name="whereParam">过滤条件参数(参数名和参数值),例:new {Uname="joyet",Age = 110}</param>
         /// <returns></returns>
-        public virtual DbEntity QueryTotalPageCount<T>(string whereSql, object whereObjParam)
+        public virtual DbEntity QueryTotalPageCount<T>(string whereSql, object whereParam)
         {
             DbEntity dbEntity = null;
             Type type = typeof(T);
@@ -402,91 +458,182 @@ namespace SmartDb.NetCore
             var tableEntity = attributeBuilder.GetTableInfo(type);
             var dbParams = new List<IDbDataParameter>();
             string dbOperator = DbFactory.GetDbParamOperator();
-            List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereObjParam);
-            StringBuilder sqlBuild = new StringBuilder("select count(*) from  {tableName} {whereCriteria}");
-            sqlBuild.Replace("{tableName}", tableEntity.TableName);
-            var whereItem = HandleWhereParam(whereSql, whereColumns, sqlBuild, dbParams);
-            sqlBuild = whereItem.Item1;
+            List<TableColumnAttribute> whereColumns = attributeBuilder.GetColumnInfos(whereParam);
+            StringBuilder sqlBuilder = new StringBuilder("select count(*) from  {tableName} {whereCriteria}");
+            sqlBuilder.Replace("{tableName}", tableEntity.TableName);
+
+            //处理过滤字段参数
+            var whereItem = HandleWhereParam(whereSql,whereColumns, sqlBuilder, dbParams);
+            sqlBuilder = whereItem.Item1;
             dbParams = whereItem.Item2;
+
             dbEntity = new DbEntity()
             {
                 TableEntity = tableEntity,
-                CommandText = sqlBuild.ToString(),
+                CommandText = sqlBuilder.ToString(),
                 DbParams = dbParams,
             };
             return dbEntity;
         }
 
         /// <summary>
+        /// 设置数据库自动增长sql
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetAutoIncrementSql()
+        {
+            return "";
+        }
+
+        /// <summary>
         /// 处理查询字段
         /// </summary>
         /// <param name="queryColumns"></param>
+        /// <param name="tableAlias"></param>
         /// <param name="sqlBuild"></param>
-        public Tuple<StringBuilder> HandleQueryColumParam(string queryColumns, string tableAlias,StringBuilder sqlBuild)
+        /// <returns></returns>
+        public Tuple<StringBuilder> HandleQueryColumnParam(string queryColumns, string tableAlias, StringBuilder sqlBuild)
         {
-            var queryColumnList = new List<string>();
+            var queryColumnBuilder = new StringBuilder();
+            if (string.IsNullOrEmpty(queryColumns))
+            {
+                queryColumns = "*";
+            }
             if (queryColumns.IndexOf(',') > 0)
             {
-                queryColumnList = queryColumns.Split(',').Where(a => !string.IsNullOrEmpty(a)).ToList();
-                for (int i = 0; i < queryColumnList.Count; i++)
+                var columnNameList = queryColumns.Split(',').Where(a => !string.IsNullOrEmpty(a)).ToList();
+                for (var i = 0; i < columnNameList.Count; i++)
                 {
-                    queryColumnList[i] = string.IsNullOrEmpty(tableAlias) ? queryColumnList[i] : tableAlias + "." + queryColumnList[i];
+                    var queryColumnName = columnNameList[i];
+                    queryColumnBuilder.Append(string.IsNullOrEmpty(tableAlias) ? queryColumnName : tableAlias + "." + queryColumnName);
+                    if (i != columnNameList.Count - 1)
+                    {
+                        queryColumnBuilder.Append(",");
+                    }
                 }
             }
             else
             {
-                queryColumnList.Add(string.IsNullOrEmpty(tableAlias)? queryColumns: tableAlias+"."+ queryColumns);
+                queryColumnBuilder.Append(string.IsNullOrEmpty(tableAlias) ? queryColumns : tableAlias + "." + queryColumns);
             }
-            sqlBuild.Replace("{queryColumns}", string.Join(",", queryColumnList));
+            sqlBuild.Replace("{queryColumns}", queryColumnBuilder.ToString());
             return new Tuple<StringBuilder>(sqlBuild);
         }
 
         /// <summary>
-        /// 处理实体处理updateParam参数
+        /// 处理updateParam参数
         /// </summary>
         /// <param name="updateColumns"></param>
         /// <param name="sqlBuild"></param>
         /// <param name="dbParams"></param>
-        public  Tuple<StringBuilder, List<IDbDataParameter>> HandleUpdateParam(List<TableColumnAttribute> updateColumns,StringBuilder sqlBuild, List<IDbDataParameter> dbParams)
+        /// <returns></returns>
+        public Tuple<StringBuilder, List<IDbDataParameter>> HandleUpdateParam(List<TableColumnAttribute> updateColumns,StringBuilder sqlBuild, List<IDbDataParameter> dbParams)
         {
-            StringBuilder updateSqlBuild = new StringBuilder();
-            if (updateColumns.Count > 0)
+            StringBuilder updateSqlBuilder = new StringBuilder();
+            var dbOperator = DbFactory.GetDbParamOperator();
+            for (int i = 0; i < updateColumns.Count; i++)
             {
-                var dbOperator = DbFactory.GetDbParamOperator();
-                var paramColumnList = new List<string>();
-                foreach (var columnItem in updateColumns)
+                var columnItem = updateColumns[i];
+                updateSqlBuilder.AppendFormat("{0}={1}{0}", columnItem.ColumnName, dbOperator);
+                if (i != updateColumns.Count - 1)
                 {
-                    var paramColumn = string.Format("{0}={1}{0}", columnItem.ColumnName, dbOperator);
-                    paramColumnList.Add(paramColumn);
-                    dbParams.Add(DbFactory.GetDbParam(columnItem));
+                    updateSqlBuilder.Append(",");
                 }
-                updateSqlBuild.Append(string.Join(",", paramColumnList));
+                dbParams.Add(DbFactory.GetDbParam(columnItem));
             }
-            sqlBuild.Replace("{updateCriteria}", updateSqlBuild.ToString());
+            sqlBuild.Replace("{updateCriteria}", updateSqlBuilder.ToString());
             return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
         }
 
         /// <summary>
-        /// 处理实体whereParam参数
+        /// 处理whereParam参数
         /// </summary>
+        /// <param name="whereSql">过滤SQL</param>
         /// <param name="whereColumns"></param>
         /// <param name="sqlBuild"></param>
         /// <param name="dbParams"></param>
-        public Tuple<StringBuilder, List<IDbDataParameter>> HandleWhereParam(string whereSql, List<TableColumnAttribute> whereColumns,StringBuilder sqlBuild,List<IDbDataParameter> dbParams)
+        /// <returns></returns>
+        public Tuple<StringBuilder, List<IDbDataParameter>> HandleWhereParam(string whereSql, List<TableColumnAttribute> whereColumns,StringBuilder sqlBuild, List<IDbDataParameter> dbParams)
         {
             StringBuilder wherSqlBuild = new StringBuilder();
-            if (!string.IsNullOrEmpty(whereSql))
+            var dbOperator = DbFactory.GetDbParamOperator();
+            if (string.IsNullOrEmpty(whereSql)&& whereColumns.Count<=0)
             {
-                wherSqlBuild.AppendFormat(" where " + whereSql);
+                sqlBuild.Replace("{whereCriteria}", wherSqlBuild.ToString());
+                return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
             }
-            if (whereColumns.Count>0)
+            wherSqlBuild.Append(" where ");
+            if (string.IsNullOrEmpty(whereSql) && whereColumns.Count > 0)
             {
-                foreach (var columnItem in whereColumns)
+                for (int i = 0; i < whereColumns.Count; i++)
                 {
+                    var columnItem = whereColumns[i];
+                    if (i != 0)
+                    {
+                        wherSqlBuild.Append("and ");
+                    }
+                    wherSqlBuild.AppendFormat("{0}={1}{0} ", columnItem.ColumnName, dbOperator);
                     dbParams.Add(DbFactory.GetDbParam(columnItem));
                 }
-            } 
+            }
+            else if (!string.IsNullOrEmpty(whereSql) && whereColumns.Count<=0)
+            {
+                wherSqlBuild.Append(whereSql);
+            }
+            else if (!string.IsNullOrEmpty(whereSql) && whereColumns.Count>0)
+            {
+                wherSqlBuild.Append(whereSql);
+                for (int i = 0; i < whereColumns.Count; i++)
+                {
+                    var columnItem = whereColumns[i];
+                    dbParams.Add(DbFactory.GetDbParam(columnItem));
+                }
+            }
             sqlBuild.Replace("{whereCriteria}", wherSqlBuild.ToString());
+            return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
+        }
+
+        /// <summary>
+        /// 处理添加字段值及参数
+        /// </summary>
+        /// <param name="noAutoIncrementColumns"></param>
+        /// <param name="sqlBuild"></param>
+        /// <param name="dbParams"></param>
+        /// <returns></returns>
+        public Tuple<StringBuilder,List<IDbDataParameter>> HandleAddColumnValueParam(List<TableColumnAttribute> noAutoIncrementColumns, StringBuilder sqlBuild, List<IDbDataParameter> dbParams)
+        {
+            var noDefaultColumns = noAutoIncrementColumns.Where(a => !a.IsSetDefaultValue).ToList();
+            var defaultColumns = noAutoIncrementColumns.Where(a => a.IsSetDefaultValue && a.DefaultValue != null).ToList();
+            List<TableColumnAttribute> columnList = new List<TableColumnAttribute>();
+            if (noDefaultColumns.Count > 0)
+            {
+                columnList.AddRange(noDefaultColumns);
+            }
+            if (defaultColumns.Count > 0)
+            {
+                foreach (var defaultColumn in defaultColumns)
+                {
+                    defaultColumn.ColumnValue = defaultColumn.DefaultValue;
+                    columnList.Add(defaultColumn);
+                }
+            }
+            var dbOperator = DbFactory.GetDbParamOperator();
+            var columnNameBuilder = new StringBuilder();
+            var columnValueBuilder = new StringBuilder();
+            for (int i = 0; i < columnList.Count; i++)
+            {
+                var column = columnList[i];
+                columnNameBuilder.Append(column.ColumnName);
+                columnValueBuilder.AppendFormat("{0}{1}",dbOperator,column.ColumnName);
+                if (i != columnList.Count - 1)
+                {
+                    columnNameBuilder.Append(",");
+                    columnValueBuilder.Append(",");
+                }
+                dbParams.Add(DbFactory.GetDbParam(column));
+            }
+            sqlBuild.Replace("{columnNames}", columnNameBuilder.ToString());
+            sqlBuild.Replace("{columnValues}", columnValueBuilder.ToString());
             return new Tuple<StringBuilder, List<IDbDataParameter>>(sqlBuild, dbParams);
         }
 
