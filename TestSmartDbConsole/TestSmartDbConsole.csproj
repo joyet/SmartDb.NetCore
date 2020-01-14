@@ -6,12 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartDb.Mapper.NetCore\SmartDb.Mapper.NetCore.csproj" />
     <ProjectReference Include="..\SmartDb.MySql.NetCore\SmartDb.MySql.NetCore.csproj" />
-    <ProjectReference Include="..\SmartDb.NetCore\SmartDb.NetCore.csproj" />
-    <ProjectReference Include="..\SmartDb.PostgreSql.NetCore\SmartDb.PostgreSql.NetCore.csproj" />
-    <ProjectReference Include="..\SmartDb.SQLite.NetCore\SmartDb.SQLite.NetCore.csproj" />
-    <ProjectReference Include="..\SmartDb.SqlServer.NetCore\SmartDb.SqlServer.NetCore.csproj" />
   </ItemGroup>
 
 </Project>

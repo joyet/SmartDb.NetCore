@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestSmartDbConsole
 {
-    [Table(TableName = "userinfo")]
+    //[Table(TableName = "userinfo")]
     //[Table(TableName="userinfo",IsGetAutoIncrementValue =true)]
     public class UserInfo
     {

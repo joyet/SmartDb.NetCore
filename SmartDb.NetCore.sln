@@ -3,19 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.Mapper.NetCore", "SmartDb.Mapper.NetCore\SmartDb.Mapper.NetCore.csproj", "{C415791A-BF84-4E10-B233-800B754464EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.Mapper.NetCore", "SmartDb.Mapper.NetCore\SmartDb.Mapper.NetCore.csproj", "{C415791A-BF84-4E10-B233-800B754464EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.NetCore", "SmartDb.NetCore\SmartDb.NetCore.csproj", "{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.NetCore", "SmartDb.NetCore\SmartDb.NetCore.csproj", "{BB327ED6-6B30-41D7-B65E-0EEA87DD33E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.MySql.NetCore", "SmartDb.MySql.NetCore\SmartDb.MySql.NetCore.csproj", "{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.MySql.NetCore", "SmartDb.MySql.NetCore\SmartDb.MySql.NetCore.csproj", "{D956CB06-DEFF-4BA1-AE40-1FA3E5717377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.PostgreSql.NetCore", "SmartDb.PostgreSql.NetCore\SmartDb.PostgreSql.NetCore.csproj", "{7FC665AB-5076-4A2D-867F-BE99374CD931}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.PostgreSql.NetCore", "SmartDb.PostgreSql.NetCore\SmartDb.PostgreSql.NetCore.csproj", "{7FC665AB-5076-4A2D-867F-BE99374CD931}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.SQLite.NetCore", "SmartDb.SQLite.NetCore\SmartDb.SQLite.NetCore.csproj", "{645732FD-273F-40CF-BC04-6B03C1172BD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.SQLite.NetCore", "SmartDb.SQLite.NetCore\SmartDb.SQLite.NetCore.csproj", "{645732FD-273F-40CF-BC04-6B03C1172BD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbConsole", "TestSmartDbConsole\TestSmartDbConsole.csproj", "{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.SqlServer.NetCore", "SmartDb.SqlServer.NetCore\SmartDb.SqlServer.NetCore.csproj", "{1919E859-CD03-4E64-9E54-E1459863DD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.SqlServer.NetCore", "SmartDb.SqlServer.NetCore\SmartDb.SqlServer.NetCore.csproj", "{1919E859-CD03-4E64-9E54-E1459863DD1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbRepository", "TestSmartDbRepository\TestSmartDbRepository.csproj", "{B2EE2033-D548-46AD-9A63-5FC75FD5169A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbConsole", "TestSmartDbConsole\TestSmartDbConsole.csproj", "{6C655C24-3226-43D8-B384-AB12602CBC2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +45,18 @@ Global
 		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{645732FD-273F-40CF-BC04-6B03C1172BD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF446746-9EC5-4BCA-82BA-0848BF3EBA1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1919E859-CD03-4E64-9E54-E1459863DD1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2EE2033-D548-46AD-9A63-5FC75FD5169A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2EE2033-D548-46AD-9A63-5FC75FD5169A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2EE2033-D548-46AD-9A63-5FC75FD5169A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2EE2033-D548-46AD-9A63-5FC75FD5169A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
