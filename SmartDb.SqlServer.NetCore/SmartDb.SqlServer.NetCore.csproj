@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net4.5.1;net4.5.2;net46;net4.6.1;net4.6.2</TargetFrameworks>
+   <TargetFrameworks>netstandard2.1;netstandard2.0;net4.5.1;net4.5.2;net4.6;net4.6.1;net4.6.2;net4.7;net4.7.1;net4.7.2;net4.8</TargetFrameworks>
     <Description></Description>
     <PackageReleaseNotes></PackageReleaseNotes>
     <Version>2.87.0</Version>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
  <ItemGroup>
-   <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+   <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
  </ItemGroup>
 
  <ItemGroup>
