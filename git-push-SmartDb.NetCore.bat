@@ -2,11 +2,10 @@
 
 cd /d F:\work\dotnetcore-work\gg\SmartDb.NetCore
 
-
-::提交被修改(modified)和被删除(deleted)文件，不包括新文件(new)
+::提交被修改modified和被删除deleted文件，不包括新文件new
 git add -u
 
-::提交新文件(new)和被修改(modified)文件，不包括被删除(deleted)文件
+::提交新文件new和被修改modified文件，不包括被删除deleted文件
 git add .  
 
 ::提交文件
