@@ -15,6 +15,8 @@ git commit -m "Upate Push Bat"
 
 ::git remote add origin git@github.com:joyet/SmartDb.NetCore.git
 
+
+::提交文件
 git push  origin master
 
 
