@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.Mapper.NetCore", "SmartDb.Mapper.NetCore\SmartDb.Mapper.NetCore.csproj", "{C415791A-BF84-4E10-B233-800B754464EB}"
 EndProject
@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.SQLite.NetCore", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartDb.SqlServer.NetCore", "SmartDb.SqlServer.NetCore\SmartDb.SqlServer.NetCore.csproj", "{1919E859-CD03-4E64-9E54-E1459863DD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbRepository", "TestSmartDbRepository\TestSmartDbRepository.csproj", "{B2EE2033-D548-46AD-9A63-5FC75FD5169A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSmartDbRepository", "TestSmartDbRepository\TestSmartDbRepository.csproj", "{B2EE2033-D548-46AD-9A63-5FC75FD5169A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSmartDbConsole", "TestSmartDbConsole\TestSmartDbConsole.csproj", "{6C655C24-3226-43D8-B384-AB12602CBC2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSmartDbConsole", "TestSmartDbConsole\TestSmartDbConsole.csproj", "{6C655C24-3226-43D8-B384-AB12602CBC2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartDb.Repository.NetCore", "SmartDb.Repository.NetCore\SmartDb.Repository.NetCore.csproj", "{BAA13962-2D79-47E8-B434-246B304782F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C655C24-3226-43D8-B384-AB12602CBC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAA13962-2D79-47E8-B434-246B304782F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAA13962-2D79-47E8-B434-246B304782F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAA13962-2D79-47E8-B434-246B304782F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAA13962-2D79-47E8-B434-246B304782F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

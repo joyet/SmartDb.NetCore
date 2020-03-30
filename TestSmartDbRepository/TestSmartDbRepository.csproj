@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartDb.MySql.NetCore\SmartDb.MySql.NetCore.csproj" />
+    <ProjectReference Include="..\SmartDb.Repository.NetCore\SmartDb.Repository.NetCore.csproj" />
   </ItemGroup>
 
 </Project>

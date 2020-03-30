@@ -38,6 +38,9 @@ namespace TestSmartDbRepository
             //删除数据
             userInfoRepository.Delete(1);
 
+            //删除数据
+            userInfoRepository.Delete("",new { UserId=2 });
+
             //根据主键查询数据
             var item = userInfoRepository.Query(2);
 

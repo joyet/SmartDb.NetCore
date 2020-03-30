@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace TestSmartDbRepository
 {
-    public class UserInfoRepository:BaseRepository<UserInfo,int>, IUserInfoRepository
+    public class UserInfoRepository: SmartDbRepository<UserInfo,int>, IUserInfoRepository
     {
         public UserInfoRepository()
         {
             string connectString = "server=localhost;User Id=root;password=123456;Database=testdb;SslMode=None;";
-            DbContext = new MySqlDbContext(connectString);
+            SmartDbContext = new MySqlDbContext(connectString);
 
-            DbContext.ExecuteDbCallBack = (cmdText, dbParms) => {
+            SmartDbContext.ExecuteDbCallBack = (cmdText, dbParms) => {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendFormat("sql:{0}\n", cmdText);
                 if (dbParms != null)

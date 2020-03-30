@@ -1221,6 +1221,19 @@
         "runtime": {
           "bin/placeholder/SmartDb.NetCore.dll": {}
         }
+      },
+      "SmartDb.Repository.NetCore/2.87.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "SmartDb.NetCore": "2.87.0"
+        },
+        "compile": {
+          "bin/placeholder/SmartDb.Repository.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SmartDb.Repository.NetCore.dll": {}
+        }
       }
     }
   },
@@ -4772,12 +4785,18 @@
       "type": "project",
       "path": "../SmartDb.NetCore/SmartDb.NetCore.csproj",
       "msbuildProject": "../SmartDb.NetCore/SmartDb.NetCore.csproj"
+    },
+    "SmartDb.Repository.NetCore/2.87.0": {
+      "type": "project",
+      "path": "../SmartDb.Repository.NetCore/SmartDb.Repository.NetCore.csproj",
+      "msbuildProject": "../SmartDb.Repository.NetCore/SmartDb.Repository.NetCore.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
       "Microsoft.NETCore.App >= 2.2.0",
-      "SmartDb.MySql.NetCore >= 2.87.0"
+      "SmartDb.MySql.NetCore >= 2.87.0",
+      "SmartDb.Repository.NetCore >= 2.87.0"
     ]
   },
   "packageFolders": {
@@ -4815,6 +4834,9 @@
           "projectReferences": {
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.MySql.NetCore\\SmartDb.MySql.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.MySql.NetCore\\SmartDb.MySql.NetCore.csproj"
+            },
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Repository.NetCore\\SmartDb.Repository.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.Repository.NetCore\\SmartDb.Repository.NetCore.csproj"
             }
           }
         }

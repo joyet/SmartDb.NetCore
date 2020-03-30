@@ -13,7 +13,7 @@ git add .
 git commit -m "Upate Push Bat"
 
 
-::git remote add origin git@github.com:joyet/SmartDb.NetCore.git
+git remote add origin git@github.com:joyet/SmartDb.NetCore.git
 
 
 ::提交到远程分支
