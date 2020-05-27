@@ -16,7 +16,6 @@ namespace SmartDb.PostgreSql.NetCore
             DbBuilder = new PostgreSqlBuilder();
             DbBuilder.DbFactory = dbFactory;
             DbBuilder.CurrentDbType = SmartDbTypes.PostgreSql;
-            CurrentDbType = SmartDbTypes.PostgreSql;
         }
 
     }

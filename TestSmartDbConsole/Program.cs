@@ -42,11 +42,11 @@ namespace TestSmartDbConsole
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
             dbTest.Insert();
-            dbTest.Delete();
-            dbTest.Update();
-            dbTest.Query();
-            dbTest.OrtherQuery();
-            dbTest.OrtherNoneQuery();
+            //dbTest.Delete();
+            //dbTest.Update();
+            //dbTest.Query();
+            //dbTest.OrtherQuery();
+            //dbTest.OrtherNoneQuery();
         }
 
         //public static void TestSqlServer()

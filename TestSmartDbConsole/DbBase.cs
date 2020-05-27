@@ -15,10 +15,12 @@ namespace TestSmartDbConsole
         /// </summary>
         public void Insert()
         {
+            StringBuilder stringBuilder = new StringBuilder();
             DbContext.BeginTransaction();
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 800000; i++)
             {
-               var result= DbContext.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" });
+                stringBuilder.Append("joyet" + i.ToString()+"|");
+              var aa=DbContext.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" },true);
             }
             DbContext.CommitTransaction();
         }
@@ -28,7 +30,7 @@ namespace TestSmartDbConsole
         /// </summary>
         public void DeleteAll()
         {
-            var result = DbContext.Delete<Entity>("", null);
+            DbContext.Delete<Entity>("", null);
         }
 
         /// <summary>
@@ -40,12 +42,12 @@ namespace TestSmartDbConsole
             var dbOperator = dbFactory.GetDbParamOperator();
 
             //根据主键值删除数据(此方法会采用SQL参数化)
-            var result = DbContext.Delete<Entity>(1);
+            DbContext.Delete<Entity>(1);
 
             ////根据过滤条件Sql和参数删除数据
-            result = DbContext.Delete<Entity>("UserId=1", null); //用法1
-            result = DbContext.Delete<Entity>("", new { UserId = 1 }); //用法2(此方法会采用SQL参数化)
-            result = DbContext.Delete<Entity>(string.Format("UserId={0}UserId", dbOperator), new { UserId = 1 }); //用法3(此方法会采用SQL参数化)
+            DbContext.Delete<Entity>("UserId=1", null); //用法1
+            DbContext.Delete<Entity>("", new { UserId = 1 }); //用法2(此方法会采用SQL参数化)
+            DbContext.Delete<Entity>(string.Format("UserId={0}UserId", dbOperator), new { UserId = 1 }); //用法3(此方法会采用SQL参数化)
         }
 
         /// <summary>
@@ -59,15 +61,15 @@ namespace TestSmartDbConsole
             var item = DbContext.Query<Entity>(2);
 
             //根据实体对象修改数据根据用法(此方法会采用SQL参数化)
-            var result = DbContext.Update<Entity>(item);
+             DbContext.Update<Entity>(item);
 
             //根据修改字段参数、主键值修改数据用法(此方法会采用SQL参数化)
-            result = DbContext.Update<Entity>(new { UserName = "joyet2X" }, 2);
+            DbContext.Update<Entity>(new { UserName = "joyet2X" }, 2);
 
             //根据要修改字段参数、过滤条件Sql、过滤参数修改数据
-            result = DbContext.Update<Entity>(new { UserName = "joyet2XX" }, "UserId=2", null);  //用法1
-            result = DbContext.Update<Entity>(new { UserName = "joyet2XXX" }, "", new { UserId = 2 }); //用法2(此方法会采用SQL参数化)
-            result = DbContext.Update<Entity>(new { UserName = "joyet2XXXX" }, string.Format("UserId={0}UserId", dbOperator), new { UserId = 2 }); //用法3(此方法会采用SQL参数化)
+            DbContext.Update<Entity>(new { UserName = "joyet2XX" }, "UserId=2", null);  //用法1
+            DbContext.Update<Entity>(new { UserName = "joyet2XXX" }, "", new { UserId = 2 }); //用法2(此方法会采用SQL参数化)
+            DbContext.Update<Entity>(new { UserName = "joyet2XXXX" }, string.Format("UserId={0}UserId", dbOperator), new { UserId = 2 }); //用法3(此方法会采用SQL参数化)
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace TestSmartDbConsole
     //[Table(TableName="userinfo",IsGetAutoIncrementValue =true)]
     public class UserInfo
     {
-        [TableColumn(IsPrimaryKey = true)]
+        [TableColumn(IsPrimaryKey = true,IsAutoIncrement =true)]
         //[TableColumn(IsPrimaryKey = true,IsAutoIncrement =true)]
         public int UserId { get; set; }
 

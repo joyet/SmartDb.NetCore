@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestSmartDbRepository
 {
-    public interface IUserInfoRepository: ISmartDbRepository<UserInfo, int>
+    public interface IUserInfoRepository: IBaseRepository<UserInfo, int>
     {
        
         

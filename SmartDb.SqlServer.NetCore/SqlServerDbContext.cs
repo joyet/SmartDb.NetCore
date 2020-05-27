@@ -17,7 +17,6 @@ namespace SmartDb.SqlServer.NetCore
             DbBuilder = new SqlServerBuilder();
             DbBuilder.DbFactory = dbFactory;
             DbBuilder.CurrentDbType = SmartDbTypes.SqlServer;
-            CurrentDbType = SmartDbTypes.SqlServer;
         }
 
     }

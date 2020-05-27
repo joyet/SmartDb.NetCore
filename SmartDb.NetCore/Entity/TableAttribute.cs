@@ -15,17 +15,10 @@ namespace SmartDb.NetCore
         /// </summary>
         public string Description { get; set; }
 
-        /// <summary>
-        /// 是否获取自动增长值（默认不开启）
-        /// </summary>
-        public bool IsGetAutoIncrementValue { get; set; }
-
-
         public TableAttribute()
         {
             TableName = "";
             Description = "";
-            IsGetAutoIncrementValue = false;
         }
     }
 }

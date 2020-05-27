@@ -12,20 +12,21 @@ namespace SmartDb.NetCore
         /// <summary>
         /// 数据库工厂
         /// </summary>
-        public virtual SqlDbFactory DbFactory { get; set; }
+        public  SqlDbFactory DbFactory { get; set; }
 
         /// <summary>
         /// SmartDb数据库类型
         /// </summary>
-        public SmartDbTypes CurrentDbType { get; set; }
+        public  SmartDbTypes CurrentDbType { get; set; }
 
         /// <summary>
         /// 添加单条数据
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
+        /// <param name="entity"></param>
+        /// <param name="isGetAutoIncrementValue"></param>
         /// <returns></returns>
-        public virtual DbEntity Insert<T>(T entity)
+        public virtual DbEntity Insert<T>(T entity, bool isGetAutoIncrementValue = false)
         {
             DbEntity dbEntity = null;
             if (entity == null)
@@ -58,7 +59,7 @@ namespace SmartDb.NetCore
 
             #region 处理自动增长列Sql
             var autoIncrementColumn = columns.Where(a => a.IsAutoIncrement).FirstOrDefault();
-            if (tableEntity.IsGetAutoIncrementValue && autoIncrementColumn != null)
+            if (autoIncrementColumn != null&& isGetAutoIncrementValue)
             {
                 var dbTypeValue = Convert.ToInt32(CurrentDbType);
                 switch (dbTypeValue)
@@ -74,10 +75,6 @@ namespace SmartDb.NetCore
                         sqlBuilder.AppendFormat(GetAutoIncrementSql(), tableEntity.TableName);
                         break;
                 }
-            }
-            else
-            {
-                tableEntity.IsGetAutoIncrementValue = false;
             }
             #endregion
 

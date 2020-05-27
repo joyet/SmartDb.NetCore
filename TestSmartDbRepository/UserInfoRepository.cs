@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TestSmartDbRepository
 {
-    public class UserInfoRepository: SmartDbRepository<UserInfo,int>, IUserInfoRepository
+    public class UserInfoRepository: BaseRepository<UserInfo,int>, IUserInfoRepository
     {
         public UserInfoRepository()
         {

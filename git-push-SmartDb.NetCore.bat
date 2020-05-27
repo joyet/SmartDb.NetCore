@@ -10,7 +10,7 @@ git add -u
 git add .  
 
 ::提交文件
-git commit -m "Upate Push Bat"
+git commit -m "Automatic growth value method when adding data"
 
 
 git remote add origin git@github.com:joyet/SmartDb.NetCore.git
