@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestSmartDbRepository
+namespace SmartDb.Repository.NetCore
 {
    public class BaseRepository<T, IdType>:IBaseRepository<T,IdType>
     {

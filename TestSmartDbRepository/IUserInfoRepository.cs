@@ -1,4 +1,4 @@
-﻿using SmartDb.NetCore;
+﻿
 using SmartDb.Repository.NetCore;
 using System;
 using System.Collections.Generic;
