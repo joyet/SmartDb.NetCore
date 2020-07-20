@@ -10,7 +10,7 @@ namespace SmartDb.Repository.NetCore
 {
    public class BaseRepository<T, IdType>:IBaseRepository<T,IdType>
     {
-       public SqlDbContext SmartDbContext { get; set; }
+       public SqlDbContext DbContext { get; set; }
 
         #region 添加数据相关方法
 
@@ -19,9 +19,11 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public void Insert(T entity)
+        public int Insert(T entity)
         {
-           SmartDbContext.Insert(entity);
+            var result = 0;
+            result=DbContext.Insert(entity);
+            return result;
         }
 
         /// <summary>
@@ -29,12 +31,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task InsertAsync(T entity)
+        public async Task<int> InsertAsync(T entity)
         {
+            var result = 0;
             await Task.Run(() =>
             {
-                SmartDbContext.Insert(entity);
+                result= Insert(entity);
             });
+            return result;
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public object Insert(T entity, bool isGetAutoIncrementValue)
         {
-            var result = SmartDbContext.Insert(entity, isGetAutoIncrementValue);
+            var result = DbContext.Insert(entity, isGetAutoIncrementValue);
             return result;
         }
 
@@ -60,7 +64,7 @@ namespace SmartDb.Repository.NetCore
             object result = null;
             await Task.Run(() =>
             {
-                result=SmartDbContext.Insert(entity, isGetAutoIncrementValue);
+                result= Insert(entity, isGetAutoIncrementValue);
             });
             return result;
         }
@@ -70,12 +74,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entityList"></param>
         /// <returns></returns>
-        public void Insert(IList<T> entityList)
+        public int Insert(IList<T> entityList)
         {
+            var result = 0;
             foreach (var entity in entityList)
             {
-                SmartDbContext.Insert(entity);
+                result+=DbContext.Insert(entity);
             }
+            return result;
         }
 
         /// <summary>
@@ -83,18 +89,17 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entityList"></param>
         /// <returns></returns>
-        public async Task InsertAsync(IList<T> entityList)
+        public async Task<int> InsertAsync(IList<T> entityList)
         {
-           await Task.Run(() => {
-                foreach (var entity in entityList)
-                {
-                    SmartDbContext.Insert(entity);
-                }
+            var result = 0;
+            await Task.Run(() => {
+                result = Insert(entityList);
             });
+            return result;
         }
 
         /// <summary>
-        /// 批量添加数据,返回自动增长值或影响行数列表
+        /// 批量添加数据,返回自动增长值列表
         /// </summary>
         /// <param name="entityList"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -110,7 +115,7 @@ namespace SmartDb.Repository.NetCore
         }
 
         /// <summary>
-        /// 批量添加数据异步方法,返回自动增长值或影响行数列表
+        /// 批量添加数据异步方法,返回自动增长值列表
         /// </summary>
         /// <param name="entityList"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -120,10 +125,7 @@ namespace SmartDb.Repository.NetCore
             IList<object> result=new List<object>();
             await Task.Run(() =>
             {
-                foreach (var entity in entityList)
-                {
-                    result.Add(Insert(entity, isGetAutoIncrementValue));
-                }
+                result = Insert(entityList, isGetAutoIncrementValue);
             });
             return result;
         }
@@ -137,9 +139,11 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public void Delete(IdType id)
+        public int Delete(IdType id)
         {
-            SmartDbContext.Delete<T>(id);
+            var result = 0;
+            result=DbContext.Delete<T>(id);
+            return result;
         }
 
         /// <summary>
@@ -147,11 +151,13 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(IdType id)
+        public async Task<int> DeleteAsync(IdType id)
         {
+            var result = 0;
             await Task.Run(() => {
-                SmartDbContext.Delete<T>(id);
+                result=Delete(id);
             });
+            return result;
         }
 
         /// <summary>
@@ -159,12 +165,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        public void Delete(IList<IdType> idList)
+        public int Delete(IList<IdType> idList)
         {
+            var result = 0;
             foreach (var id in idList)
             {
-                SmartDbContext.Delete<T>(id);
+                result+=DbContext.Delete<T>(id);
             }
+            return result;
         }
 
         /// <summary>
@@ -172,14 +180,13 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(IList<IdType> idList)
+        public async Task<int> DeleteAsync(IList<IdType> idList)
         {
-           await Task.Run(() => {
-                foreach (var id in idList)
-                {
-                    SmartDbContext.Delete<T>(id);
-                }
+            var result = 0;
+            await Task.Run(() => {
+                result= Delete(idList);
             });
+            return result;
         }
 
         /// <summary>
@@ -188,9 +195,11 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
-        public void Delete(string whereSql, object whereParam)
+        public int Delete(string whereSql, object whereParam)
         {
-            SmartDbContext.Delete<T>(whereSql, whereParam);
+            var result = 0;
+            result=DbContext.Delete<T>(whereSql, whereParam);
+            return result;
         }
 
         /// <summary>
@@ -199,11 +208,13 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
-        public async Task DeleteAsync(string whereSql, object whereParam)
+        public async Task<int> DeleteAsync(string whereSql, object whereParam)
         {
+            var result = 0;
             await Task.Run(() => {
-                SmartDbContext.Delete<T>(whereSql, whereParam);
+                result=Delete(whereSql, whereParam);
             });
+            return result;
         }
         #endregion
 
@@ -214,9 +225,11 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public void Update(T entity)
+        public int Update(T entity)
         {
-            SmartDbContext.Update(entity);
+            var result = 0;
+            result=DbContext.Update(entity);
+            return result;
         }
 
         /// <summary>
@@ -224,11 +237,13 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task UpdateAsync(T entity)
+        public async Task<int> UpdateAsync(T entity)
         {
-           await Task.Run(() => {
-                SmartDbContext.Update(entity);
+            var result = 0;
+            await Task.Run(() => {
+                result = Update(entity);
             });
+            return result;
         }
 
         /// <summary>
@@ -237,9 +252,11 @@ namespace SmartDb.Repository.NetCore
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public void Update(object updateParam, IdType id)
+        public int Update(object updateParam, IdType id)
         {
-            SmartDbContext.Update<T>(updateParam, id);
+            var result = 0;
+            result=DbContext.Update<T>(updateParam, id);
+            return result;
         }
 
         /// <summary>
@@ -248,11 +265,13 @@ namespace SmartDb.Repository.NetCore
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task UpdateAsync(object updateParam, IdType id)
+        public async Task<int> UpdateAsync(object updateParam, IdType id)
         {
-           await Task.Run(() => {
-                SmartDbContext.Update<T>(updateParam, id);
+            var result = 0;
+            await Task.Run(() => {
+                result=Update(updateParam, id);
             });
+            return result;
         }
 
         /// <summary>
@@ -262,9 +281,11 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {UserId=1})</param>
         /// <returns></returns>
-        public void Update(object updateParam, string whereSql, object whereParam)
+        public int Update(object updateParam, string whereSql, object whereParam)
         {
-            SmartDbContext.Update<T>(updateParam, whereSql,whereParam);
+            var result = 0;
+            result=DbContext.Update<T>(updateParam, whereSql,whereParam);
+            return result;
         }
 
         /// <summary>
@@ -274,11 +295,13 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {UserId=1})</param>
         /// <returns></returns>
-        public async Task UpdateAsync(object updateParam, string whereSql, object whereParam)
+        public async Task<int> UpdateAsync(object updateParam, string whereSql, object whereParam)
         {
-           await Task.Run(() => {
-                SmartDbContext.Update<T>(updateParam, whereSql, whereParam);
+            var result = 0;
+            await Task.Run(() => {
+                result=Update(updateParam, whereSql, whereParam);
             });
+            return result;
         }
         #endregion
 
@@ -291,7 +314,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public T Query(IdType id)
         {
-            var result = SmartDbContext.Query<T>(id);
+            var result = DbContext.Query<T>(id);
             return result;
         }
 
@@ -305,7 +328,7 @@ namespace SmartDb.Repository.NetCore
             T result = default(T);
             await Task.Run(() =>
             {
-                result = SmartDbContext.Query<T>(id);
+                result = Query(id);
             });
             return result;
         }
@@ -319,7 +342,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public IList<T> Query(string queryColumns, string whereSql, object whereParam)
         {
-            var result = SmartDbContext.Query<T>(queryColumns, whereSql, whereParam);
+            var result = DbContext.Query<T>(queryColumns, whereSql, whereParam);
             return result;
         }
 
@@ -336,7 +359,7 @@ namespace SmartDb.Repository.NetCore
             IList<T> result = new List<T>();
             await Task.Run(() =>
             {
-                result = SmartDbContext.Query<T>(queryColumns, whereSql, whereParam);
+                result = Query(queryColumns, whereSql, whereParam);
             });
             return result;
         }
@@ -349,7 +372,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public IList<T2> Query<T2>(string sql, object objParam)
         {
-            var result = SmartDbContext.Query<T2>(sql, objParam);
+            var result = DbContext.Query<T2>(sql, objParam);
             return result;
         }
 
@@ -364,7 +387,7 @@ namespace SmartDb.Repository.NetCore
             IList<T2> result = new List<T2>();
             await Task.Run(() =>
             {
-                result = SmartDbContext.Query<T2>(sql, objParam);
+                result = Query<T2>(sql, objParam);
             });
             return result;
         }
@@ -383,7 +406,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public PageResultEntity QueryPageList(string queryColumns, string sortColumn, string sortType, int pageSize, int pageIndex, string whereSql, object whereParam)
         {
-            var result = SmartDbContext.QueryPageList<T>(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
+            var result = DbContext.QueryPageList<T>(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
             return result;
         }
 
@@ -404,7 +427,7 @@ namespace SmartDb.Repository.NetCore
             var result = new PageResultEntity();
             await Task.Run(() =>
             {
-                result = SmartDbContext.QueryPageList<T>(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
+                result = QueryPageList(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
             });
             return result;
         }

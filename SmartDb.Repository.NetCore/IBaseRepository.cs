@@ -9,7 +9,7 @@ namespace SmartDb.Repository.NetCore
 {
     public interface IBaseRepository<T,IdType>
     {
-        SqlDbContext SmartDbContext { get; set; }
+        SqlDbContext DbContext { get; set; }
 
         #region 添加数据相关方法
 
@@ -18,14 +18,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        void Insert(T entity);
+        int Insert(T entity);
 
         /// <summary>
         /// 添加单条数据异步方法
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task InsertAsync(T entity);
+        Task<int> InsertAsync(T entity);
 
         /// <summary>
         /// 添加单条数据,返回自动增长值或影响行数
@@ -48,14 +48,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entityList"></param>
         /// <returns></returns>
-        void Insert(IList<T> entityList);
+        int Insert(IList<T> entityList);
 
         /// <summary>
         /// 批量添加数据异步方法
         /// </summary>
         /// <param name="entityList"></param>
         /// <returns></returns>
-        Task InsertAsync(IList<T> entityList);
+        Task<int> InsertAsync(IList<T> entityList);
 
         /// <summary>
         /// 批量添加数据,返回自动增长值或影响行数列表
@@ -82,28 +82,28 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        void Delete(IdType id);
+        int Delete(IdType id);
 
         /// <summary>
         /// 根据主键值删除数据异步方法
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task DeleteAsync(IdType id);
+        Task<int> DeleteAsync(IdType id);
 
         /// <summary>
         /// 根据主键值列表删除数据
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        void Delete(IList<IdType> idList);
+        int Delete(IList<IdType> idList);
 
         // <summary>
         /// 根据主键值列表删除数据异步方法
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
-        Task DeleteAsync(IList<IdType> idList);
+        Task<int> DeleteAsync(IList<IdType> idList);
 
         /// <summary>
         /// 根据过滤条件Sql和过滤条件参数删除数据
@@ -111,7 +111,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
-        void Delete(string whereSql, object whereParam);
+        int Delete(string whereSql, object whereParam);
 
         // <summary>
         /// 根据过滤条件Sql和过滤条件参数删除数据异步方法
@@ -119,7 +119,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
-        Task DeleteAsync(string whereSql, object whereParam);
+        Task<int> DeleteAsync(string whereSql, object whereParam);
 
         #endregion
 
@@ -130,14 +130,14 @@ namespace SmartDb.Repository.NetCore
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        void Update(T entity);
+        int Update(T entity);
 
         /// <summary>
         /// 根据实体主键值修改其它字段数据异步方法
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task UpdateAsync(T entity);
+        Task<int> UpdateAsync(T entity);
 
         /// <summary>
         ///  根据修改字段参数、主键值修改数据
@@ -145,7 +145,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        void Update(object updateParam, IdType id);
+        int Update(object updateParam, IdType id);
 
         /// <summary>
         ///  根据修改字段参数、主键值修改数据异步方法
@@ -153,7 +153,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task UpdateAsync(object updateParam, IdType id);
+        Task<int> UpdateAsync(object updateParam, IdType id);
 
         /// <summary>
         /// 根据修改字段参数、过滤条件Sql、过滤条件参数修改数据
@@ -162,7 +162,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {UserId=1})</param>
         /// <returns></returns>
-        void Update(object updateParam, string whereSql, object whereParam);
+        int Update(object updateParam, string whereSql, object whereParam);
 
         /// <summary>
         /// 根据修改字段参数、过滤条件Sql、过滤条件参数修改数据异步方法
@@ -171,7 +171,7 @@ namespace SmartDb.Repository.NetCore
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {UserId=1})</param>
         /// <returns></returns>
-        Task UpdateAsync(object updateParam, string whereSql, object whereParam);
+        Task<int> UpdateAsync(object updateParam, string whereSql, object whereParam);
 
         #endregion
 

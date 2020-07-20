@@ -1,5 +1,6 @@
 ﻿using SmartDb.MySql.NetCore;
 using SmartDb.NetCore;
+using SmartDb.Repository.NetCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,9 +15,9 @@ namespace TestSmartDbRepository
         public UserInfoRepository()
         {
             string connectString = "server=localhost;User Id=root;password=123456;Database=testdb;SslMode=None;";
-            SmartDbContext = new MySqlDbContext(connectString);
+            DbContext = new MySqlDbContext(connectString);
 
-            SmartDbContext.ExecuteDbCallBack = (cmdText, dbParms) => {
+            DbContext.ExecuteDbCallBack = (cmdText, dbParms) => {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendFormat("sql:{0}\n", cmdText);
                 if (dbParms != null)
