@@ -10,7 +10,7 @@ git add -u
 git add .  
 
 ::提交文件
-git commit -m "Automatic growth value method when adding data"
+git commit -m "Method of adding batch modification data in warehouse"
 
 
 git remote add origin git@github.com:joyet/SmartDb.NetCore.git

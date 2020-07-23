@@ -28,7 +28,7 @@ namespace SmartDb.Repository.NetCore
         Task<int> InsertAsync(T entity);
 
         /// <summary>
-        /// 添加单条数据,返回自动增长值或影响行数
+        /// 添加单条数据(返回自动增长值)
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -36,7 +36,7 @@ namespace SmartDb.Repository.NetCore
         object Insert(T entity, bool isGetAutoIncrementValue);
 
         /// <summary>
-        /// 添加单条数据异步方法,返回自动增长值或影响行数
+        /// 添加单条数据异步方法(返回自动增长值)
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -58,7 +58,7 @@ namespace SmartDb.Repository.NetCore
         Task<int> InsertAsync(IList<T> entityList);
 
         /// <summary>
-        /// 批量添加数据,返回自动增长值或影响行数列表
+        ///批量添加数据(返回自动增长值列表)
         /// </summary>
         /// <param name="entityList"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -66,7 +66,7 @@ namespace SmartDb.Repository.NetCore
         IList<object> Insert(IList<T> entityList, bool isGetAutoIncrementValue);
 
         /// <summary>
-        /// 批量添加数据异步方法,返回自动增长值或影响行数列表
+        /// 批量添加数据异步方法(返回自动增长值列表)
         /// </summary>
         /// <param name="entityList"></param>
         /// <param name="isGetAutoIncrementValue"></param>
@@ -78,35 +78,35 @@ namespace SmartDb.Repository.NetCore
         #region 删除数据相关方法
 
         /// <summary>
-        /// 根据主键值删除数据
+        /// 删除单条数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         int Delete(IdType id);
 
         /// <summary>
-        /// 根据主键值删除数据异步方法
+        /// 删除单条数据异步方法
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<int> DeleteAsync(IdType id);
 
         /// <summary>
-        /// 根据主键值列表删除数据
+        /// 批量删除数据
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
         int Delete(IList<IdType> idList);
 
         // <summary>
-        /// 根据主键值列表删除数据异步方法
+        /// 批量删除数据异步方法
         /// </summary>
         /// <param name="idList"></param>
         /// <returns></returns>
         Task<int> DeleteAsync(IList<IdType> idList);
 
         /// <summary>
-        /// 根据过滤条件Sql和过滤条件参数删除数据
+        /// 删除一或多条数据
         /// </summary>
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
@@ -114,7 +114,7 @@ namespace SmartDb.Repository.NetCore
         int Delete(string whereSql, object whereParam);
 
         // <summary>
-        /// 根据过滤条件Sql和过滤条件参数删除数据异步方法
+        ///删除一或多条数据异步方法
         /// </summary>
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
@@ -126,21 +126,21 @@ namespace SmartDb.Repository.NetCore
         #region 修改数据相关方法
 
         /// <summary>
-        /// 根据实体主键值修改其它字段数据
+        /// 修改单条数据
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         int Update(T entity);
 
         /// <summary>
-        /// 根据实体主键值修改其它字段数据异步方法
+        /// 修改单条数据异步方法
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<int> UpdateAsync(T entity);
 
         /// <summary>
-        ///  根据修改字段参数、主键值修改数据
+        ///  修改单条数据
         /// </summary>
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
@@ -148,7 +148,7 @@ namespace SmartDb.Repository.NetCore
         int Update(object updateParam, IdType id);
 
         /// <summary>
-        ///  根据修改字段参数、主键值修改数据异步方法
+        /// 修改单条数据异步方法
         /// </summary>
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="id"></param>
@@ -156,7 +156,22 @@ namespace SmartDb.Repository.NetCore
         Task<int> UpdateAsync(object updateParam, IdType id);
 
         /// <summary>
-        /// 根据修改字段参数、过滤条件Sql、过滤条件参数修改数据
+        /// 批量修改数据
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        int Update(List<T> entityList);
+
+        /// <summary>
+        /// 批量修改数据异步方法
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<int> UpdateAsync(List<T> entityList);
+     
+
+        /// <summary>
+        /// 修改一或多条数据
         /// </summary>
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="whereSql">过滤条件Sql</param>
@@ -165,7 +180,7 @@ namespace SmartDb.Repository.NetCore
         int Update(object updateParam, string whereSql, object whereParam);
 
         /// <summary>
-        /// 根据修改字段参数、过滤条件Sql、过滤条件参数修改数据异步方法
+        /// 修改一或多条数据异步方法
         /// </summary>
         /// <param name="updateParam">修改字段参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <param name="whereSql">过滤条件Sql</param>
@@ -178,39 +193,39 @@ namespace SmartDb.Repository.NetCore
         #region 查询数据相关方法
 
         /// <summary>
-        ///根据主键值查询数据
+        ///查询单条数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         T Query(IdType id);
 
         /// <summary>
-        ///根据主键值查询数据异步方法
+        ///查询单条数据异步方法
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         Task<T> QueryAsync(IdType id);
 
         /// <summary>
-        /// 根据查询字段、过滤条件Sql、过滤条件参数查询数据
+        /// 查询一或多条数据
         /// </summary>
-        /// <param name="queryColumns">要查询字段</param>
+        /// <param name="queryColumns">查询字段</param>
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
         IList<T> Query(string queryColumns, string whereSql, object whereParam);
 
         /// <summary>
-        /// 根据查询字段、过滤条件Sql、过滤条件参数查询数据异步方法
+        ///查询一或多条数据异步方法
         /// </summary>
-        /// <param name="queryColumns">要查询字段</param>
+        /// <param name="queryColumns">查询字段</param>
         /// <param name="whereSql">过滤条件Sql</param>
         /// <param name="whereParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
         /// <returns></returns>
         Task<IList<T>> QueryAsync(string queryColumns, string whereSql, object whereParam);
 
         /// <summary>
-        /// 根据sql语句、过滤条件参数查询数据
+        /// 查询一或多条数据
         /// </summary>
         /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
         /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
@@ -218,7 +233,7 @@ namespace SmartDb.Repository.NetCore
         IList<T2> Query<T2>(string sql, object objParam);
 
         /// <summary>
-        /// 根据sql语句、过滤条件参数查询数据异步方法
+        /// 查询一或多条数据异步方法
         /// </summary>
         /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
         /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
@@ -226,7 +241,7 @@ namespace SmartDb.Repository.NetCore
         Task<IList<T2>> QueryAsync<T2>(string sql, object objParam);
 
         /// <summary>
-        /// 单表分页数据
+        /// 单表分页数据查询
         /// </summary>
         /// <param name="queryColumns">要查询字段</param>
         /// <param name="sortColumn">排序字段</param>
@@ -239,7 +254,7 @@ namespace SmartDb.Repository.NetCore
         PageResultEntity QueryPageList(string queryColumns, string sortColumn, string sortType, int pageSize, int pageIndex, string whereSql, object whereParam);
 
         /// <summary>
-        /// 单表分页数据异步方法
+        /// 单表分页数据查询异步方法
         /// </summary>
         /// <param name="queryColumns">要查询字段</param>
         /// <param name="sortColumn">排序字段</param>

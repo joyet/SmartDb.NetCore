@@ -8,3 +8,13 @@ F:\work\dotnetcore-work\ff\SmartDb.NetCore\SmartDb.NetCore\SmartDb.NetCore\bin\D
 F:\work\dotnetcore-work\ff\SmartDb.NetCore\SmartDb.NetCore\SmartDb.NetCore\bin\Debug\net4.5.1\SmartDb.Mapper.NetCore.pdb
 F:\work\dotnetcore-work\ff\SmartDb.NetCore\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.dll
 F:\work\dotnetcore-work\ff\SmartDb.NetCore\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.pdb
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\bin\Debug\net4.5.1\SmartDb.NetCore.dll
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\bin\Debug\net4.5.1\SmartDb.NetCore.pdb
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\bin\Debug\net4.5.1\SmartDb.Mapper.NetCore.dll
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\bin\Debug\net4.5.1\SmartDb.Mapper.NetCore.pdb
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.csprojAssemblyReference.cache
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.AssemblyInfoInputs.cache
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.AssemblyInfo.cs
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.csproj.CopyComplete
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.dll
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\SmartDb.NetCore\obj\Debug\net4.5.1\SmartDb.NetCore.pdb
