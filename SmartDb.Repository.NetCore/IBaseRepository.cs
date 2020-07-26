@@ -225,22 +225,6 @@ namespace SmartDb.Repository.NetCore
         Task<IList<T>> QueryAsync(string queryColumns, string whereSql, object whereParam);
 
         /// <summary>
-        /// 查询一或多条数据
-        /// </summary>
-        /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
-        /// <returns></returns>
-        IList<T2> Query<T2>(string sql, object objParam);
-
-        /// <summary>
-        /// 查询一或多条数据异步方法
-        /// </summary>
-        /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
-        /// <returns></returns>
-        Task<IList<T2>> QueryAsync<T2>(string sql, object objParam);
-
-        /// <summary>
         /// 单表分页数据查询
         /// </summary>
         /// <param name="queryColumns">要查询字段</param>

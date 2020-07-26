@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smart.Foundation", "Smart.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Foundation.NetCore", "Smart.Foundation.NetCore\Smart.Foundation.NetCore.csproj", "{48EB9DFD-CD17-42E5-A6BC-A11BC00C5AB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Async.NetCore", "Smart.Async.NetCore\Smart.Async.NetCore.csproj", "{82064480-370F-4B8B-B958-30B58BD3F99A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{48EB9DFD-CD17-42E5-A6BC-A11BC00C5AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EB9DFD-CD17-42E5-A6BC-A11BC00C5AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EB9DFD-CD17-42E5-A6BC-A11BC00C5AB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82064480-370F-4B8B-B958-30B58BD3F99A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82064480-370F-4B8B-B958-30B58BD3F99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82064480-370F-4B8B-B958-30B58BD3F99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82064480-370F-4B8B-B958-30B58BD3F99A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{6C655C24-3226-43D8-B384-AB12602CBC2D} = {F5ED12CF-8930-421A-A3D4-B1A099952176}
 		{BAA13962-2D79-47E8-B434-246B304782F9} = {F5ED12CF-8930-421A-A3D4-B1A099952176}
 		{48EB9DFD-CD17-42E5-A6BC-A11BC00C5AB6} = {F6917742-4756-418C-9D62-87F74B2E8344}
+		{82064480-370F-4B8B-B958-30B58BD3F99A} = {F6917742-4756-418C-9D62-87F74B2E8344}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F78A327-5D24-40FB-B000-084436AB4611}

@@ -1,6 +1,9 @@
 set SouceDir=F:\work\dotnetcore-work\gg\SmartDb.NetCore
 set DestDir=F:\work\dotnetcore-work\gg\SmartDb.NetCore.NuGet
 
+:: copy Smart.Async.NetCore All Files
+xcopy "%SouceDir%\Smart.Async.NetCore\*.cs"  "%DestDir%\Smart.Async.NetCore\" /s /r /c /v /y
+
 :: copy SmartDb.Mapper.NetCore All Files
 xcopy "%SouceDir%\SmartDb.Mapper.NetCore\*.cs"  "%DestDir%\SmartDb.Mapper.NetCore\" /s /r /c /v /y
 
@@ -28,5 +31,6 @@ xcopy "%SouceDir%\SmartDb.Repository.NetCore\*.cs"  "%DestDir%\SmartDb.Repositor
 
 :: copy TestSmartDbRepository All Files
 xcopy "%SouceDir%\TestSmartDbRepository\*.cs"  "%DestDir%\TestSmartDbRepository\" /s /r /c /v /y
+
 pause
 

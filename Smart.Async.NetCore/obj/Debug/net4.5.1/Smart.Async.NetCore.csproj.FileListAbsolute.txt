@@ -1,0 +1,7 @@
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\bin\Debug\net4.5.1\Smart.Async.NetCore.dll
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\bin\Debug\net4.5.1\Smart.Async.NetCore.pdb
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\obj\Debug\net4.5.1\Smart.Async.NetCore.csprojAssemblyReference.cache
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\obj\Debug\net4.5.1\Smart.Async.NetCore.AssemblyInfoInputs.cache
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\obj\Debug\net4.5.1\Smart.Async.NetCore.AssemblyInfo.cs
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\obj\Debug\net4.5.1\Smart.Async.NetCore.dll
+F:\work\dotnetcore-work\gg\SmartDb.NetCore\Smart.Async.NetCore\obj\Debug\net4.5.1\Smart.Async.NetCore.pdb

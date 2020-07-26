@@ -11,6 +11,16 @@
           "lib/net45/_._": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5",
@@ -46,6 +56,16 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.1",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -85,6 +105,16 @@
           "lib/net45/_._": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.5.2",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.5.2",
@@ -120,6 +150,16 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -159,6 +199,16 @@
           "lib/net45/_._": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6.1",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.6.1",
@@ -194,6 +244,16 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.6.2",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -233,6 +293,16 @@
           "lib/net45/_._": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.7",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.7",
@@ -268,6 +338,16 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.7.1",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -307,6 +387,16 @@
           "lib/net45/_._": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.7.2",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.7.2",
@@ -342,6 +432,16 @@
         },
         "runtime": {
           "lib/net45/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.8",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -417,6 +517,16 @@
           "lib/netstandard2.0/System.Reflection.Emit.Lightweight.dll": {}
         }
       },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
@@ -452,6 +562,16 @@
         },
         "runtime": {
           "lib/netstandard2.1/_._": {}
+        }
+      },
+      "Smart.Async.NetCore/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "compile": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Smart.Async.NetCore.dll": {}
         }
       },
       "SmartDb.Mapper.NetCore/2.85.0": {
@@ -741,6 +861,11 @@
         "version.txt"
       ]
     },
+    "Smart.Async.NetCore/1.0.0": {
+      "type": "project",
+      "path": "../Smart.Async.NetCore/Smart.Async.NetCore.csproj",
+      "msbuildProject": "../Smart.Async.NetCore/Smart.Async.NetCore.csproj"
+    },
     "SmartDb.Mapper.NetCore/2.85.0": {
       "type": "project",
       "path": "../SmartDb.Mapper.NetCore/SmartDb.Mapper.NetCore.csproj",
@@ -754,40 +879,52 @@
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.5.1": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.5.2": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.6": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.6.1": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.6.2": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.7": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.7.1": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.7.2": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETFramework,Version=v4.8": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETStandard,Version=v2.0": [
       "NETStandard.Library >= 2.0.3",
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ],
     ".NETStandard,Version=v2.1": [
+      "Smart.Async.NetCore >= 1.0.0",
       "SmartDb.NetCore >= 2.87.0"
     ]
   },
@@ -836,6 +973,9 @@
       "frameworks": {
         "net45": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -843,6 +983,9 @@
         },
         "net451": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -850,6 +993,9 @@
         },
         "net452": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -857,6 +1003,9 @@
         },
         "net46": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -864,6 +1013,9 @@
         },
         "net461": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -871,6 +1023,9 @@
         },
         "net462": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -878,6 +1033,9 @@
         },
         "net47": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -885,6 +1043,9 @@
         },
         "net471": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -892,6 +1053,9 @@
         },
         "net472": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -899,6 +1063,9 @@
         },
         "net48": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -906,6 +1073,9 @@
         },
         "netstandard2.0": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }
@@ -913,6 +1083,9 @@
         },
         "netstandard2.1": {
           "projectReferences": {
+            "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj": {
+              "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\Smart.Async.NetCore\\Smart.Async.NetCore.csproj"
+            },
             "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj": {
               "projectPath": "F:\\work\\dotnetcore-work\\gg\\SmartDb.NetCore\\SmartDb.NetCore\\SmartDb.NetCore.csproj"
             }

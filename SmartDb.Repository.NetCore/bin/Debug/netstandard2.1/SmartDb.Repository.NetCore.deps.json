@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.1/": {
       "SmartDb.Repository.NetCore/2.87.0": {
         "dependencies": {
+          "Smart.Async.NetCore": "1.0.0",
           "SmartDb.NetCore": "2.87.0"
         },
         "runtime": {
@@ -16,6 +17,11 @@
         }
       },
       "System.Reflection.Emit.Lightweight/4.7.0": {},
+      "Smart.Async.NetCore/1.0.0": {
+        "runtime": {
+          "Smart.Async.NetCore.dll": {}
+        }
+      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "dependencies": {
           "System.Reflection.Emit.Lightweight": "4.7.0"
@@ -46,6 +52,11 @@
       "sha512": "sha512-a4OLB4IITxAXJeV74MDx49Oq2+PsF6Sml54XAFv+2RyWwtDBcabzoxiiJRhdhx+gaohLh4hEGCLQyBozXoQPqA==",
       "path": "system.reflection.emit.lightweight/4.7.0",
       "hashPath": "system.reflection.emit.lightweight.4.7.0.nupkg.sha512"
+    },
+    "Smart.Async.NetCore/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "SmartDb.Mapper.NetCore/2.85.0": {
       "type": "project",

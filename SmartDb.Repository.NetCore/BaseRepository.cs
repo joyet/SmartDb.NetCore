@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Threading.Tasks;
+using Smart.Async.NetCore;
 
 namespace SmartDb.Repository.NetCore
 {
@@ -32,10 +33,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> InsertAsync(T entity)
         {
-            var result = await Task.Run(() =>
+            Func<int> action = () => 
             {
-                return DbContext.Insert(entity); 
-            });
+                return  DbContext.Insert(entity);
+            };
+            var result =await action.ToFuncAsycn();
             return result;
         }
 
@@ -59,10 +61,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<object> InsertAsync(T entity, bool isGetAutoIncrementValue)
         {
-            object result=await Task.Run(() =>
+            Func<object> action = () =>
             {
                 return DbContext.Insert(entity, isGetAutoIncrementValue);
-            });
+            };
+            object result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -89,7 +92,8 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> InsertAsync(IList<T> entityList)
         {
-            var result= await Task.Run(() => {
+            Func<int> action = () =>
+            {
                 var i = 0;
                 foreach (var entity in entityList)
                 {
@@ -97,7 +101,8 @@ namespace SmartDb.Repository.NetCore
                     i++;
                 }
                 return i;
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -125,7 +130,7 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<IList<object>> InsertAsync(IList<T> entityList, bool isGetAutoIncrementValue)
         {
-            var result = await Task.Run(() =>
+            Func<IList<object>> action = () =>
             {
                 IList<object> items = new List<object>();
                 foreach (var entity in entityList)
@@ -133,7 +138,8 @@ namespace SmartDb.Repository.NetCore
                     items.Add(Insert(entity, isGetAutoIncrementValue));
                 }
                 return items;
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -159,9 +165,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> DeleteAsync(IdType id)
         {
-            var result=await Task.Run(() => {
-               return DbContext.Delete<T>(id); 
-            });
+            Func<int> action = () =>
+            {
+                return DbContext.Delete<T>(id);
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -188,7 +196,8 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> DeleteAsync(IList<IdType> idList)
         {
-            var result=await Task.Run(() => {
+            Func<int> action = () =>
+            {
                 var i = 0;
                 foreach (var id in idList)
                 {
@@ -196,7 +205,8 @@ namespace SmartDb.Repository.NetCore
                     i++;
                 }
                 return i;
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -221,9 +231,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> DeleteAsync(string whereSql, object whereParam)
         {
-            var result=await Task.Run(() => {
-               return DbContext.Delete<T>(whereSql, whereParam); ;
-            });
+            Func<int> action = () =>
+            {
+                return DbContext.Delete<T>(whereSql, whereParam); ;
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
         #endregion
@@ -249,9 +261,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> UpdateAsync(T entity)
         {
-            var result = await Task.Run(() => {
-                return DbContext.Update(entity); 
-            });
+            Func<int> action = () =>
+            {
+                return DbContext.Update(entity);
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -276,9 +290,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> UpdateAsync(object updateParam, IdType id)
         {
-            var result=await Task.Run(() => {
-               return DbContext.Update<T>(updateParam, id);
-            });
+            Func<int> action = () =>
+            {
+                return DbContext.Update<T>(updateParam, id);
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -305,7 +321,8 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> UpdateAsync(List<T> entityList)
         {
-            var result=await Task.Run(() => {
+            Func<int> action = () =>
+            {
                 var i = 0;
                 foreach (var entity in entityList)
                 {
@@ -313,7 +330,8 @@ namespace SmartDb.Repository.NetCore
                     i++;
                 }
                 return i;
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -340,9 +358,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<int> UpdateAsync(object updateParam, string whereSql, object whereParam)
         {
-            var result = await Task.Run(() => {
+            Func<int> action = () =>
+            {
                 return DbContext.Update<T>(updateParam, whereSql, whereParam);
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -368,10 +388,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<T> QueryAsync(IdType id)
         {
-            var result= await Task.Run(() =>
+            Func<T> action = () =>
             {
-                return DbContext.Query<T>(id); 
-            });
+                return DbContext.Query<T>(id);
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -397,37 +418,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<IList<T>> QueryAsync(string queryColumns, string whereSql, object whereParam)
         {
-            var result =await Task.Run(() =>
+            Func<IList<T>> action = () =>
             {
                 return DbContext.Query<T>(queryColumns, whereSql, whereParam);
-            });
-            return result;
-        }
-
-        /// <summary>
-        ///  查询一或多条数据
-        /// </summary>
-        /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
-        /// <returns></returns>
-        public IList<T2> Query<T2>(string sql, object objParam)
-        {
-            var result = DbContext.Query<T2>(sql, objParam);
-            return result;
-        }
-
-        /// <summary>
-        /// 查询一或多条数据异步方法
-        /// </summary>
-        /// <param name="sql">sql语句/参数化SQL语句/存储过程</param>
-        /// <param name="objParam">过滤条件参数(参数名和参数值,例:new {Uname="joyet",Age = 110})</param>
-        /// <returns></returns>
-        public async Task<IList<T2>> QueryAsync<T2>(string sql, object objParam)
-        {
-            var result = await Task.Run(() =>
-            {
-                return DbContext.Query<T2>(sql, objParam); 
-            });
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
@@ -463,10 +458,11 @@ namespace SmartDb.Repository.NetCore
         /// <returns></returns>
         public async Task<PageResultEntity> QueryPageListAsync(string queryColumns, string sortColumn, string sortType, int pageSize, int pageIndex, string whereSql, object whereParam)
         {
-            var result = await Task.Run(() =>
+            Func<PageResultEntity> action = () =>
             {
-               return DbContext.QueryPageList<T>(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
-            });
+                return DbContext.QueryPageList<T>(queryColumns, sortColumn, sortType, pageSize, pageIndex, whereSql, whereParam);
+            };
+            var result = await action.ToFuncAsycn();
             return result;
         }
 
