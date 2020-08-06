@@ -17,10 +17,10 @@ namespace TestSmartDbConsole
         {
             StringBuilder stringBuilder = new StringBuilder();
             DbContext.BeginTransaction();
-            for (int i = 1; i <= 800000; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 stringBuilder.Append("joyet" + i.ToString()+"|");
-              var aa=DbContext.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" },true);
+              var aa=DbContext.Insert<UserInfo>(new UserInfo() { UserId = i, UserName = "joyet" + i.ToString(), Age = 110, Email = "joyet" + i.ToString() + "@qq.com" });
             }
             DbContext.CommitTransaction();
         }

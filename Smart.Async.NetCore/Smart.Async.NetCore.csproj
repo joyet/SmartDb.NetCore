@@ -1,7 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;netstandard2.0;net4.5;net4.5.1;net4.5.2;net4.6;net4.6.1;net4.6.2;net4.7;net4.7.1;net4.7.2;net4.8</TargetFrameworks>
-  </PropertyGroup>
-
-</Project>

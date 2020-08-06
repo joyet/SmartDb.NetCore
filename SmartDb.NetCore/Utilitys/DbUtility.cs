@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,11 @@ namespace SmartDb.NetCore
         /// </summary>
         public  SqlDbFactory DbFactory { get; set; }
 
+        /// <summary>
+        /// 数据库执行AOP委托
+        /// </summary>
+        public Action<DbAopEntity> AopAction { get; set; }
+
         #endregion
 
         #region private、internal、public   Methods
@@ -64,10 +70,16 @@ namespace SmartDb.NetCore
             var result = 0;
             if (!IsStartTrans)
             {
-                result = ExecuteNonQueryNoTrans(cmdText, dbParams, cmdType);
+                ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+                {
+                    result = ExecuteNonQueryNoTrans(cmdText, dbParams, cmdType);
+                });
                 return result;
             }
-            result = ExecuteNonQueryWithTrans(cmdText, dbParams, cmdType);
+            ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+            {
+                result = ExecuteNonQueryWithTrans(cmdText, dbParams, cmdType);
+            });
             return result;
         }
 
@@ -83,10 +95,16 @@ namespace SmartDb.NetCore
             DataSet result = null;
             if (!IsStartTrans)
             {
-                result = ExecuteQueryNoTrans(cmdText, dbParams, cmdType);
+                ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+                {
+                    result = ExecuteQueryNoTrans(cmdText, dbParams, cmdType);
+                });
                 return result;
             }
-            result = ExecuteQueryWithTrans(cmdText, dbParams, cmdType);
+            ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+            {
+                result = ExecuteQueryWithTrans(cmdText, dbParams, cmdType);
+            });
             return result;
         }
 
@@ -102,10 +120,17 @@ namespace SmartDb.NetCore
             IDataReader result = null;
             if (!IsStartTrans)
             {
-                result = ExecuteReaderNoTrans(cmdText, dbParams, cmdType);
+                ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+                {
+                    result = ExecuteReaderNoTrans(cmdText, dbParams, cmdType);
+                });
                 return result;
             }
-            result = ExecuteReaderWithTrans(cmdText, dbParams, cmdType);
+            ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+            {
+                result = ExecuteReaderWithTrans(cmdText, dbParams, cmdType);
+            });
+          
             return result;
         }
 
@@ -121,10 +146,16 @@ namespace SmartDb.NetCore
             object result = null;
             if (!IsStartTrans)
             {
-                result = ExecuteScalarNoTrans(cmdText, dbParams, cmdType);
+                ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+                {
+                    result = ExecuteScalarNoTrans(cmdText, dbParams, cmdType);
+                });
                 return result;
             }
-            result = ExecuteScalarWithTrans(cmdText, dbParams, cmdType);
+            ExecuteAopAction(cmdText, dbParams, cmdType, (cmdText0, dbParams0, cmdType0) =>
+            {
+                result = ExecuteScalarWithTrans(cmdText, dbParams, cmdType);
+            });
             return result;
         }
 
@@ -161,6 +192,80 @@ namespace SmartDb.NetCore
                     cmd.Parameters.Add(parameter);
                 }
             }
+        }
+
+        /// <summary>
+        /// 执行公共函数
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="cmdText"></param>
+        /// <param name="dbParams"></param>
+        /// <param name="cmdType"></param>
+        /// <param name="exeuteAction"></param>
+        /// <returns></returns>
+        private void ExecuteAopAction(string cmdText, List<IDbDataParameter> dbParams, CommandType cmdType, Action<string, List<IDbDataParameter>, CommandType> exeuteAction)
+        {
+            DbAopEntity dbAopEntity = new DbAopEntity()
+            {
+                ConnectionString = _connectionString,
+                CommandText = cmdText,
+                DbParams = dbParams,
+                CmdType = cmdType,
+                StartDateTime = DateTime.Now
+            };
+
+            //开启执行时间计算
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            //开始执行委托中方法
+            exeuteAction(cmdText, dbParams, cmdType);
+
+            //结束执行时间计算
+            stopwatch.Stop();
+            dbAopEntity.EndDateTime = DateTime.Now;
+            dbAopEntity.Elapsed = stopwatch.Elapsed;
+
+            //调用委托中方法
+            AopAction?.Invoke(dbAopEntity);
+        }
+
+        /// <summary>
+        /// 执行公共函数
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="cmdText"></param>
+        /// <param name="dbParams"></param>
+        /// <param name="cmdType"></param>
+        /// <param name="exeuteFunc"></param>
+        /// <returns></returns>
+        private  TResult ExecuteAopFunc<TResult>(string cmdText, List<IDbDataParameter> dbParams, CommandType cmdType, Func<string, List<IDbDataParameter>, CommandType, TResult> exeuteFunc)
+        {
+            DbAopEntity dbAopEntity = new DbAopEntity()
+            {
+                ConnectionString = _connectionString,
+                CommandText = cmdText,
+                DbParams = dbParams,
+                CmdType = cmdType,
+                StartDateTime = DateTime.Now
+            };
+
+            //开启执行时间计算
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            //开始执行委托中方法
+            TResult result = exeuteFunc(cmdText, dbParams, cmdType);
+
+            //结束执行时间计算
+            stopwatch.Stop();
+            dbAopEntity.EndDateTime = DateTime.Now;
+            dbAopEntity.Elapsed = stopwatch.Elapsed;
+
+            //调用委托中方法
+            AopAction?.Invoke(dbAopEntity);
+
+            return result;
         }
 
         #endregion

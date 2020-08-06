@@ -12,6 +12,24 @@ namespace SmartDb.NetCore
     {
         #region private protected public  variables
 
+        private Action<DbAopEntity> _AopAction;
+
+        /// <summary>
+        /// 数据库执行AOP委托
+        /// </summary>
+        public Action<DbAopEntity> AopAction
+        {
+            get
+            {
+                return _AopAction;
+            }
+            set
+            {
+                _AopAction = value;
+                DbHelper.AopAction = _AopAction;
+            }
+        }
+
         /// <summary>
         /// DbHelper
         /// </summary>
@@ -21,11 +39,6 @@ namespace SmartDb.NetCore
         /// 基础SqlBuilder
         /// </summary>
         public SqlBuilder DbBuilder { get; set; }
-
-        /// <summary>
-        /// 数据库执行回调函数对象
-        /// </summary>
-        public Action<string, List<IDbDataParameter>> ExecuteDbCallBack { get; set; }
 
         #endregion
 
@@ -47,7 +60,6 @@ namespace SmartDb.NetCore
         {
             int result = 0;
             result = DbHelper.ExecuteNonQuery(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -63,7 +75,6 @@ namespace SmartDb.NetCore
             int result = 0;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteNonQuery(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -78,7 +89,6 @@ namespace SmartDb.NetCore
         {
             DataSet result = null;
             result = DbHelper.ExecuteQuery(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -94,7 +104,6 @@ namespace SmartDb.NetCore
             DataSet result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteQuery(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -109,7 +118,6 @@ namespace SmartDb.NetCore
         {
             IDataReader result = null;
             result = DbHelper.ExecuteReader(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -125,7 +133,6 @@ namespace SmartDb.NetCore
             IDataReader result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteReader(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -140,7 +147,6 @@ namespace SmartDb.NetCore
         {
             object result = null;
             result = DbHelper.ExecuteScalar(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -156,7 +162,6 @@ namespace SmartDb.NetCore
             object result = null;
             List<IDbDataParameter> dbParams = DbHelper.DbFactory.GetDbParamList(objParam);
             result = DbHelper.ExecuteScalar(cmdText, dbParams, cmdType);
-            ExecuteDbCallBack?.Invoke(cmdText, dbParams);
             return result;
         }
 
@@ -175,7 +180,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             result=DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -197,7 +201,6 @@ namespace SmartDb.NetCore
             if (!isGetAutoIncrementValue)
             {
                 result= DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-                ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
                 return result;
             }
             var dbTypeValue = Convert.ToInt32(DbBuilder.CurrentDbType); 
@@ -210,7 +213,6 @@ namespace SmartDb.NetCore
                     result = ExecuteScalar(dbEntity.CommandText, dbEntity.DbParams);
                     break;
             }
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -229,7 +231,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             result=DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -249,7 +250,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -268,7 +268,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             result=DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -288,7 +287,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             result = DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -309,7 +307,6 @@ namespace SmartDb.NetCore
                 return result;
             }
             DbHelper.ExecuteNonQuery(dbEntity.CommandText, dbEntity.DbParams);
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -331,7 +328,6 @@ namespace SmartDb.NetCore
             {
                 result = DataReaderToEntity<T>(reader);
             }
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -355,7 +351,6 @@ namespace SmartDb.NetCore
             {
                 result = DataReaderToEntityList<T>(reader);
             }
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -378,7 +373,6 @@ namespace SmartDb.NetCore
             {
                 result = DataReaderToEntityList<T>(reader);
             }
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 
@@ -436,7 +430,6 @@ namespace SmartDb.NetCore
                 result.Data = datas;
                 result = SetPageListResult<T>(result);
             }
-            ExecuteDbCallBack?.Invoke(dbEntity.CommandText, dbEntity.DbParams);
             return result;
         }
 

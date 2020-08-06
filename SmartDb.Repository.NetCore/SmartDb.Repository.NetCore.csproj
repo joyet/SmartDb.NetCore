@@ -11,9 +11,8 @@
     <PackageProjectUrl></PackageProjectUrl>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Smart.Async.NetCore\Smart.Async.NetCore.csproj" />
-    <ProjectReference Include="..\SmartDb.NetCore\SmartDb.NetCore.csproj" />
+  <ItemGroup> 
+   <ProjectReference Include="..\SmartDb.NetCore\SmartDb.NetCore.csproj" />
   </ItemGroup>
 
 </Project>

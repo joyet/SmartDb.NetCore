@@ -25,16 +25,17 @@ namespace TestSmartDbConsole
             SqlDbContext db = new MySqlDbContext(connectString);
 
             //数据执行回调函数
-            db.ExecuteDbCallBack = (cmdText, dbParms) => {
+            db.AopAction = (dbAopEntity) => {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendFormat("sql:{0}\n", cmdText);
-                if (dbParms != null)
+                stringBuilder.AppendLine("sql:" + dbAopEntity.CommandText);
+                if (dbAopEntity.DbParams != null)
                 {
-                    foreach (IDbDataParameter param in dbParms)
+                    foreach (IDbDataParameter param in dbAopEntity.DbParams)
                     {
-                        stringBuilder.AppendFormat("paramName:{0},paramValue:{1}\n", param.ParameterName,param.Value.ToString());
+                        stringBuilder.AppendLine("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
                     }
                 }
+                stringBuilder.AppendLine("执行时间:" + dbAopEntity.Elapsed.ToString());
                 stringBuilder.Append("\n");
                 Console.Write(stringBuilder.ToString());
             };
@@ -42,11 +43,11 @@ namespace TestSmartDbConsole
             var dbTest = new DbTest(db);
             dbTest.DeleteAll();
             dbTest.Insert();
-            //dbTest.Delete();
-            //dbTest.Update();
-            //dbTest.Query();
-            //dbTest.OrtherQuery();
-            //dbTest.OrtherNoneQuery();
+            dbTest.Delete();
+            dbTest.Update();
+            dbTest.Query();
+            dbTest.OrtherQuery();
+            dbTest.OrtherNoneQuery();
         }
 
         //public static void TestSqlServer()

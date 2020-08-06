@@ -1181,16 +1181,6 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
-      "Smart.Async.NetCore/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/Smart.Async.NetCore.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Smart.Async.NetCore.dll": {}
-        }
-      },
       "SmartDb.Mapper.NetCore/2.85.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
@@ -1236,7 +1226,6 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "Smart.Async.NetCore": "1.0.0",
           "SmartDb.NetCore": "2.87.0"
         },
         "compile": {
@@ -4781,11 +4770,6 @@
         "system.xml.xpath.xmldocument.4.0.1.nupkg.sha512",
         "system.xml.xpath.xmldocument.nuspec"
       ]
-    },
-    "Smart.Async.NetCore/1.0.0": {
-      "type": "project",
-      "path": "../Smart.Async.NetCore/Smart.Async.NetCore.csproj",
-      "msbuildProject": "../Smart.Async.NetCore/Smart.Async.NetCore.csproj"
     },
     "SmartDb.Mapper.NetCore/2.85.0": {
       "type": "project",

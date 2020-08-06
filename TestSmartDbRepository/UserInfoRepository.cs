@@ -17,16 +17,17 @@ namespace TestSmartDbRepository
             string connectString = "server=localhost;User Id=root;password=123456;Database=testdb;SslMode=None;";
             DbContext = new MySqlDbContext(connectString);
 
-            DbContext.ExecuteDbCallBack = (cmdText, dbParms) => {
+            DbContext.AopAction = (dbAopEntity) => {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendFormat("sql:{0}\n", cmdText);
-                if (dbParms != null)
+                stringBuilder.AppendLine("sql:" + dbAopEntity.CommandText);
+                if (dbAopEntity.DbParams != null)
                 {
-                    foreach (IDbDataParameter param in dbParms)
+                    foreach (IDbDataParameter param in dbAopEntity.DbParams)
                     {
-                        stringBuilder.AppendFormat("paramName:{0},paramValue:{1}\n", param.ParameterName, param.Value.ToString());
+                        stringBuilder.AppendLine("paramName:" + param.ParameterName + ",paramValue:" + param.Value.ToString());
                     }
                 }
+                stringBuilder.AppendLine("执行时间:" + dbAopEntity.Elapsed.ToString());
                 stringBuilder.Append("\n");
                 Console.Write(stringBuilder.ToString());
             };

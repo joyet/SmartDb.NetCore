@@ -10,7 +10,7 @@ git add -u
 git add .  
 
 ::提交文件
-git commit -m "Method of adding batch modification data in warehouse"
+git commit -m "Add AOP method to database"
 
 
 git remote add origin git@github.com:joyet/SmartDb.NetCore.git
